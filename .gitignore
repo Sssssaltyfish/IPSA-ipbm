@@ -3,3 +3,5 @@ rp4rt.txt
 *.exe
 
 build/*
+.vscode/
+CMakeCache.txt
