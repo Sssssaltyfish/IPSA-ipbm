@@ -2,6 +2,7 @@ rp4json.txt
 rp4rt.txt
 *.exe
 
-build/*
+build/
 .vscode/
 CMakeCache.txt
+CMakeFiles/
