@@ -1,8 +1,9 @@
 #include "ctrl_complex.h"
 
-int main(int argc, char **argv) {
+int main(int argc, char** argv) {
     google::InitGoogleLogging(argv[0]);
-    CtrlFwd ctrl(grpc::CreateChannel("localhost:50051", grpc::InsecureChannelCredentials()));
+    CtrlFwd ctrl(grpc::CreateChannel("localhost:50051",
+                                     grpc::InsecureChannelCredentials()));
     ctrl.add_tunnel();
     return 0;
 }

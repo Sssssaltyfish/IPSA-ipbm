@@ -15,7 +15,8 @@ int main() {
     mem_config->initFlowTableFromJson("../config/flow_table.json");
     mem_config->printFlowTableInfo();
 
-    auto ft = new FlowTable("l2_forwarding", MatchType::EXACT, MemType::MEM_SRAM, 80, 64, 2, 100);
+    auto ft = new FlowTable("l2_forwarding", MatchType::EXACT,
+                            MemType::MEM_SRAM, 80, 64, 2, 100);
     mem_config->addFlowTable(ft);
     mem_config->printFlowTableInfo();
 

@@ -5,8 +5,6 @@
 #ifndef CONTROLLER_ACTION_H
 #define CONTROLLER_ACTION_H
 
-class Action {
+class Action {};
 
-};
-
-#endif //CONTROLLER_ACTION_H
+#endif // CONTROLLER_ACTION_H

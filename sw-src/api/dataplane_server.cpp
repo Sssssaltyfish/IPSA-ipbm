@@ -3,8 +3,8 @@
 //
 #include "api/dataplane_server.h"
 
-int main(int argc, char * argv[]) {
-//    google::InitGoogleLogging(argv[0]);
+int main(int argc, char* argv[]) {
+    //    google::InitGoogleLogging(argv[0]);
     auto pipe = new Pipeline(PROC_NUM);
 
     init_mem();
@@ -12,4 +12,3 @@ int main(int argc, char * argv[]) {
 
     return 0;
 }
-

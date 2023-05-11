@@ -5,9 +5,7 @@
 
 std::unique_ptr<Rp4Ast> tree;
 
-std::string get_offset(int width) {
-    return std::string(width, ' ');
-}
+std::string get_offset(int width) { return std::string(width, ' '); }
 
 void print_node(const Rp4TreeNode* node, int tab) {
     auto offset = get_offset(tab);
@@ -19,9 +17,7 @@ void print_node(const Rp4TreeNode* node, int tab) {
     }
 }
 
-void print_tree(const Rp4Ast* ast) {
-    print_node(ast, 0);
-}
+void print_tree(const Rp4Ast* ast) { print_node(ast, 0); }
 
 int yyparse();
 extern FILE* yyin;

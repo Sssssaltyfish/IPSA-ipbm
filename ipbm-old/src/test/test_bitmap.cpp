@@ -1,18 +1,18 @@
 #include "dataplane/bitmap.h"
+#include <bitset>
 #include <cassert>
 #include <ctime>
-#include <bitset>
 
 constexpr int MAX_N = 4096;
 
-void check_equal(uint8_t *bm, std::bitset<MAX_N> &mock) {
+void check_equal(uint8_t* bm, std::bitset<MAX_N>& mock) {
     for (int i = 0; i < MAX_N; i++) {
         assert(Bitmap::test(bm, i) == mock.test(i));
     }
 }
 
 int main() {
-    srand((unsigned) time(nullptr));
+    srand((unsigned)time(nullptr));
 
     uint8_t bm[MAX_N / Bitmap::WIDTH];
     Bitmap::init(bm, MAX_N / Bitmap::WIDTH);

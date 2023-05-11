@@ -9,9 +9,26 @@
 #include <unordered_map>
 
 enum class OpCode {
-    ADD, SUB, MOD, DIV, MUL,
-    SHIFT_LEFT, SHIFT_RIGHT, EQ_DATA, NEQ_DATA, GT_DATA, LT_DATA, GET_DATA, LET_DATA,
-    AND, OR, NOT, BIT_AND, BIT_OR, BIT_XOR, BIT_NEG,
+    ADD,
+    SUB,
+    MOD,
+    DIV,
+    MUL,
+    SHIFT_LEFT,
+    SHIFT_RIGHT,
+    EQ_DATA,
+    NEQ_DATA,
+    GT_DATA,
+    LT_DATA,
+    GET_DATA,
+    LET_DATA,
+    AND,
+    OR,
+    NOT,
+    BIT_AND,
+    BIT_OR,
+    BIT_XOR,
+    BIT_NEG,
     TERNARY_OP
 };
 
@@ -21,9 +38,9 @@ enum class OpCode {
 class Primitive {
 public:
     Primitive();
+
 private:
     uint32_t primitive_id;
-
 };
 
-#endif //CONTROLLER_PRIMITIVE_H
+#endif // CONTROLLER_PRIMITIVE_H

@@ -4,10 +4,10 @@
 
 #include "../include/logical_table.h"
 
-void LogicalTable::setInsideFlowTables(std::vector<FlowTable*> flow_tables){
+void LogicalTable::setInsideFlowTables(std::vector<FlowTable*> flow_tables) {
     this->inside_flow_tables = std::move(flow_tables);
 }
-void LogicalTable::addInsideFlowTable(FlowTable* flow_table){
+void LogicalTable::addInsideFlowTable(FlowTable* flow_table) {
     this->inside_flow_tables.push_back(flow_table);
 }
 
@@ -18,7 +18,7 @@ std::vector<FlowTable*> LogicalTable::getInsideFlowTables() {
 int32_t LogicalTable::getMemInBit() const {
     if (this->supported_max_length == -1 || this->supported_max_num == -1) {
         return -1;
-    } else{
+    } else {
         return this->supported_max_num * this->supported_max_length;
     }
 }
@@ -28,21 +28,15 @@ int32_t LogicalTable::changeCapacity(int change_value) {
     return this->current_capacity;
 }
 
-int32_t LogicalTable::getLogicalTableId() const {
-    return logical_table_id;
-}
+int32_t LogicalTable::getLogicalTableId() const { return logical_table_id; }
 
 void LogicalTable::setLogicalTableId(int32_t logicalTableId) {
     logical_table_id = logicalTableId;
 }
 
-MatchType LogicalTable::getMatchType() const {
-    return match_type;
-}
+MatchType LogicalTable::getMatchType() const { return match_type; }
 
-void LogicalTable::setMatchType(MatchType matchType) {
-    match_type = matchType;
-}
+void LogicalTable::setMatchType(MatchType matchType) { match_type = matchType; }
 
 int32_t LogicalTable::getResidedHardwareId() const {
     return resided_hardware_id;
@@ -58,19 +52,17 @@ int32_t LogicalTable::getSupportedMaxLength() const {
 
 void LogicalTable::setSupportedMaxLength(int32_t supportedMaxLength) {
     supported_max_length = supportedMaxLength;
-    if (this->supported_max_length!=-1 && this->supported_max_num!=-1){
+    if (this->supported_max_length != -1 && this->supported_max_num != -1) {
         this->mem_in_bit = this->supported_max_num * this->supported_max_length;
     }
 }
 
-int32_t LogicalTable::getSupportedMaxNum() const {
-    return supported_max_num;
-}
+int32_t LogicalTable::getSupportedMaxNum() const { return supported_max_num; }
 
 void LogicalTable::setSupportedMaxNum(int32_t supportedMaxNum) {
     supported_max_num = supportedMaxNum;
     current_capacity = supportedMaxNum;
-    if (this->supported_max_length!=-1 && this->supported_max_num!=-1){
+    if (this->supported_max_length != -1 && this->supported_max_num != -1) {
         this->mem_in_bit = this->supported_max_num * this->supported_max_length;
     }
 }

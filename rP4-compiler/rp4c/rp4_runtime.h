@@ -1,9 +1,9 @@
 #pragma once
 
-#include "rp4_compiler.h"
-#include "ipsa_output.h"
 #include "ipsa_builder.h"
+#include "ipsa_output.h"
 #include "ipsa_tableupdate.h"
+#include "rp4_compiler.h"
 #include <fstream>
 
 class Rp4Task {
@@ -35,12 +35,13 @@ public:
     std::unique_ptr<Rp4Task> now_task;
     std::unique_ptr<Rp4Task> next_task;
     std::string update_json_filename = "update.json";
-    Rp4Runtime(): now_task(nullptr), next_task(nullptr) {}
+    Rp4Runtime() : now_task(nullptr), next_task(nullptr) {}
     void emitTask(std::string rp4_filename, std::string json_filename);
     void emitUpdate(std::vector<std::string> params);
 };
 
-void Rp4Runtime::emitTask(std::string rp4_filename, std::string json_filename) {
+inline void Rp4Runtime::emitTask(std::string rp4_filename,
+                                 std::string json_filename) {
     if (now_task.get() == nullptr) {
         // never be called previously
         now_task = std::make_unique<Rp4Task>();
@@ -74,12 +75,13 @@ void Rp4Runtime::emitUpdate(std::vector<std::string> params) {
     }
     // parse update type
     auto cmd = params[0];
-    IpsaTableUpdateType type = (
-        cmd == "table_add" ? IpsaTableUpdateType::TBL_UPD_ADD : (
-        cmd == "table_mod" ? IpsaTableUpdateType::TBL_UPD_MOD : (
-        cmd == "table_del" ? IpsaTableUpdateType::TBL_UPD_DEL :
-                             IpsaTableUpdateType::TBL_UPD_ADD
-    )));
+    IpsaTableUpdateType type =
+        (cmd == "table_add"
+             ? IpsaTableUpdateType::TBL_UPD_ADD
+             : (cmd == "table_mod"
+                    ? IpsaTableUpdateType::TBL_UPD_MOD
+                    : (cmd == "table_del" ? IpsaTableUpdateType::TBL_UPD_DEL
+                                          : IpsaTableUpdateType::TBL_UPD_ADD)));
     // parse update table
     auto table_name = params[1];
     auto table = now_task->builder.table_manager.lookup(table_name);
@@ -94,7 +96,10 @@ void Rp4Runtime::emitUpdate(std::vector<std::string> params) {
     // parse keys
     int i;
     for (i = 3; i < params.size(); i++) {
-        if (params[i] == "=>") { i++; break; }
+        if (params[i] == "=>") {
+            i++;
+            break;
+        }
         int width = 32, index = i - 3;
         if (index < table->key_width_vec.size()) {
             width = table->key_width_vec[index];
@@ -107,7 +112,8 @@ void Rp4Runtime::emitUpdate(std::vector<std::string> params) {
         if (index < action->action_parameters_lengths.size()) {
             width = action->action_parameters_lengths[index];
         }
-        updater.action_para.push_back(IpsaTableUpdateKey(params[j], width).abandonMask());
+        updater.action_para.push_back(
+            IpsaTableUpdateKey(params[j], width).abandonMask());
     }
     out.emit(updater.toIpsaValue());
     output.close();

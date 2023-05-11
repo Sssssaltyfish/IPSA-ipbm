@@ -30,24 +30,25 @@
 class ExecuterConfig {
 public:
     ExecuterConfig(int processorNum);
-    ExecuterConfig() : cur_action_idx(0) {};
+    ExecuterConfig() : cur_action_idx(0){};
 
     void setProcessorNum(int processorNum);
 
-    void addAction(Action * action, int processor_id);
-    Action* addActionByJson(const std::string &json_filename,
-                         Processor* processor);
+    void addAction(Action* action, int processor_id);
+    Action* addActionByJson(const std::string& json_filename,
+                            Processor* processor);
 
-
-    void initExecuterFromJson(const std::string &json_filename,
-                              MatcherConfig *match_config, Processor* processor);
+    void initExecuterFromJson(const std::string& json_filename,
+                              MatcherConfig* match_config,
+                              Processor* processor);
 
     void printAllActions();
     void printActionsByExecuter();
 
-    int getActionIdByName(const std::string & action_name);
+    int getActionIdByName(const std::string& action_name);
 
     std::string searchDesUsingOpCode(OpCode op);
+
 private:
     std::unordered_map<int, Action*> action_map;
     std::unordered_map<int, Executer*> executer_map;
@@ -56,8 +57,8 @@ private:
     int processor_num;
 };
 
-Action* ExecuterConfig::addActionByJson(const std::string &json_filename,
-                     Processor* processor) {
+Action* ExecuterConfig::addActionByJson(const std::string& json_filename,
+                                        Processor* processor) {
     FILE* fp = fopen(json_filename.c_str(), "rb");
     char readBufer[65536];
     rapidjson::FileReadStream is(fp, readBufer, sizeof(readBufer));
@@ -85,18 +86,19 @@ Action* ExecuterConfig::addActionByJson(const std::string &json_filename,
     for (int j = 0; j < primitive_num; j++) {
         auto primitive = new Primitive();
 
-        std::string primitive_name = primitive_array[j]["primitive_name"].GetString();
+        std::string primitive_name =
+            primitive_array[j]["primitive_name"].GetString();
         primitive->op = Op.opcode_map[primitive_name];
 
         auto parameter_array = primitive_array[j]["parameters"].GetArray();
         int parameter_num = parameter_array.Size();
         for (int k = 0; k < parameter_num; k++) {
-            Parameter para = {
-                    .type = parameter_array[k]["type"].GetString(),
-                    .value = parameter_array[k]["value"].GetString()
-            };
-//            std::string parameter_type = parameter_array[k]["type"].GetString();
-//            std::string parameter_value = parameter_array[k]["value"].GetString();
+            Parameter para = {.type = parameter_array[k]["type"].GetString(),
+                              .value = parameter_array[k]["value"].GetString()};
+            //            std::string parameter_type =
+            //            parameter_array[k]["type"].GetString(); std::string
+            //            parameter_value =
+            //            parameter_array[k]["value"].GetString();
             primitive->parameters.push_back(para);
         }
         ac->primitives.push_back(primitive);
@@ -112,8 +114,9 @@ Action* ExecuterConfig::addActionByJson(const std::string &json_filename,
     return ac;
 }
 
-void ExecuterConfig::initExecuterFromJson(const std::string &json_filename,
-                                          MatcherConfig *match_config, Processor* processor) {
+void ExecuterConfig::initExecuterFromJson(const std::string& json_filename,
+                                          MatcherConfig* match_config,
+                                          Processor* processor) {
     FILE* fp = fopen(json_filename.c_str(), "rb");
     char readBufer[65536];
     rapidjson::FileReadStream is(fp, readBufer, sizeof(readBufer));
@@ -128,7 +131,7 @@ void ExecuterConfig::initExecuterFromJson(const std::string &json_filename,
 
         auto actions = it->value.GetArray();
         int action_num = actions.Size();
-        for(int i = 0; i < action_num; i++) {
+        for (int i = 0; i < action_num; i++) {
             std::string action_name = actions[i]["action_name"].GetString();
             int para_num = actions[i]["parameter_num"].GetInt();
 
@@ -145,47 +148,56 @@ void ExecuterConfig::initExecuterFromJson(const std::string &json_filename,
             for (int j = 0; j < primitive_num; j++) {
                 auto primitive = new Primitive();
 
-                std::string primitive_name = primitive_array[j]["primitive_name"].GetString();
+                std::string primitive_name =
+                    primitive_array[j]["primitive_name"].GetString();
                 primitive->op = Op.opcode_map[primitive_name];
 
-//                std::cout << "\t\t" << primitive_name << std::endl;
-                auto parameter_array = primitive_array[j]["parameters"].GetArray();
+                //                std::cout << "\t\t" << primitive_name <<
+                //                std::endl;
+                auto parameter_array =
+                    primitive_array[j]["parameters"].GetArray();
                 int parameter_num = parameter_array.Size();
                 for (int k = 0; k < parameter_num; k++) {
                     Parameter para = {
-                            .type = parameter_array[k]["type"].GetString(),
-                            .value = parameter_array[k]["value"].GetString()
-                    };
-//                    std::string parameter_type = parameter_array[k]["type"].GetString();
-//                    std::string parameter_value = parameter_array[k]["value"].GetString();
+                        .type = parameter_array[k]["type"].GetString(),
+                        .value = parameter_array[k]["value"].GetString()};
+                    //                    std::string parameter_type =
+                    //                    parameter_array[k]["type"].GetString();
+                    //                    std::string parameter_value =
+                    //                    parameter_array[k]["value"].GetString();
                     primitive->parameters.push_back(para);
-//                    std::cout << "\t\t\t" << parameter_type << "." << parameter_value << std::endl;
+                    //                    std::cout << "\t\t\t" <<
+                    //                    parameter_type << "." <<
+                    //                    parameter_value << std::endl;
                 }
                 ac->primitives.push_back(primitive);
             }
             this->executer_map[processor_id]->addAction(ac);
-//            this->executer_map[match_config->getProcessorIdByFlowTableName(flow_table_name)]->addAction(ac);
+            //            this->executer_map[match_config->getProcessorIdByFlowTableName(flow_table_name)]->addAction(ac);
         }
     }
-
 }
 
-//void ExecuterConfig::initExecuterFromJson(const std::string &json_filename, MatcherConfig *match_config) {
-//    FILE* fp = fopen(json_filename.c_str(), "rb");
-//    char readBufer[65536];
-//    rapidjson::FileReadStream is(fp, readBufer, sizeof(readBufer));
+// void ExecuterConfig::initExecuterFromJson(const std::string &json_filename,
+// MatcherConfig *match_config) {
+//     FILE* fp = fopen(json_filename.c_str(), "rb");
+//     char readBufer[65536];
+//     rapidjson::FileReadStream is(fp, readBufer, sizeof(readBufer));
 //
-//    rapidjson::Document d;
-//    d.ParseStream(is);
-//    fclose(fp);
+//     rapidjson::Document d;
+//     d.ParseStream(is);
+//     fclose(fp);
 //
-//    for (auto it = d.MemberBegin(); it != d.MemberEnd(); ++it) {
-//        std::string flow_table_name = it->name.GetString();
-////        auto executer = new Executer(match_config->getProcessorIdByFlowTableName(flow_table_name));
-////        std::cout << flow_table_name << std::endl;
-//        for(auto action = it->value.MemberBegin(); action != it->value.MemberEnd(); ++action) {
-//            std::string action_name = action->value["action_name"].GetString();
-//            int para_num = action->value["parameter_num"].GetInt();
+//     for (auto it = d.MemberBegin(); it != d.MemberEnd(); ++it) {
+//         std::string flow_table_name = it->name.GetString();
+////        auto executer = new
+///Executer(match_config->getProcessorIdByFlowTableName(flow_table_name)); /
+///std::cout << flow_table_name << std::endl;
+//        for(auto action = it->value.MemberBegin(); action !=
+//        it->value.MemberEnd(); ++action) {
+//            std::string action_name =
+//            action->value["action_name"].GetString(); int para_num =
+//            action->value["parameter_num"].GetInt();
 //
 //            auto ac = new Action();
 //            ac->action_id = cur_action_idx;
@@ -201,28 +213,34 @@ void ExecuterConfig::initExecuterFromJson(const std::string &json_filename,
 //            for (int i = 0; i < primitive_num; i++) {
 //                auto primitive = new Primitive();
 //
-//                std::string primitive_name = primitive_array[i]["primitive_name"].GetString();
+//                std::string primitive_name =
+//                primitive_array[i]["primitive_name"].GetString();
 //                primitive->op = Op.opcode_map[primitive_name];
 //
 ////                std::cout << "\t\t" << primitive_name << std::endl;
-//                auto parameter_array = primitive_array[i]["parameters"].GetArray();
-//                int parameter_num = parameter_array.Size();
-//                for (int j = 0; j < parameter_num; j++) {
-//                    std::string parameter_type = parameter_array[j]["type"].GetString();
-//                    std::string parameter_value = parameter_array[j]["value"].GetString();
-//                    primitive->parameters.push_back(parameter_type + "." + parameter_value);
-////                    std::cout << "\t\t\t" << parameter_type << "." << parameter_value << std::endl;
+//                auto parameter_array =
+//                primitive_array[i]["parameters"].GetArray(); int parameter_num
+//                = parameter_array.Size(); for (int j = 0; j < parameter_num;
+//                j++) {
+//                    std::string parameter_type =
+//                    parameter_array[j]["type"].GetString(); std::string
+//                    parameter_value = parameter_array[j]["value"].GetString();
+//                    primitive->parameters.push_back(parameter_type + "." +
+//                    parameter_value);
+////                    std::cout << "\t\t\t" << parameter_type << "." <<
+///parameter_value << std::endl;
 //                }
 //                ac->primitives.push_back(primitive);
 //            }
 //            this->executer_map[match_config->getProcessorIdByFlowTableName(flow_table_name)]->addAction(ac);
 //        }
-////        executer_map.insert(std::make_pair(executer->getResidedProcessorId(), executer));
+//// executer_map.insert(std::make_pair(executer->getResidedProcessorId(),
+///executer));
 //    }
 //
 //}
 
-void ExecuterConfig::addAction(Action *action, int processor_id) {
+void ExecuterConfig::addAction(Action* action, int processor_id) {
     action->action_id = cur_action_idx++;
     this->action_map.insert(std::make_pair(action->action_id, action));
 
@@ -231,14 +249,16 @@ void ExecuterConfig::addAction(Action *action, int processor_id) {
 
 void ExecuterConfig::printAllActions() {
     std::cout << "************** Actions **************" << std::endl;
-    for(auto it : action_map) {
+    for (auto it : action_map) {
         auto action = it.second;
-        std::cout << "Action " << it.first << "(" << action->action_name << ")" << std::endl;
-//        std::cout << "\tProcessor: " << action->processor_id << std::endl;
+        std::cout << "Action " << it.first << "(" << action->action_name << ")"
+                  << std::endl;
+        //        std::cout << "\tProcessor: " << action->processor_id <<
+        //        std::endl;
         std::cout << "\tPrimitives: " << std::endl;
-        for(auto ele : action->primitives) {
+        for (auto ele : action->primitives) {
             std::cout << "\t\t" << Op.opcode_map_inverse[ele->op] << ": ";
-            for(auto p : ele->parameters) {
+            for (auto p : ele->parameters) {
                 std::cout << p.type << "." << p.value << " ";
             }
             std::cout << std::endl;
@@ -246,46 +266,46 @@ void ExecuterConfig::printAllActions() {
     }
 }
 
-
 void ExecuterConfig::printActionsByExecuter() {
     std::cout << "************** Actions **************" << std::endl;
-    for(auto it : executer_map) {
+    for (auto it : executer_map) {
         auto executer = it.second;
         executer->printActions();
 
-//        std::cout << "Action " << it.first << "(" << action->action_name << ")" << std::endl;
-//        std::cout << "\tProcessor: " << action->processor_id << std::endl;
-//        std::cout << "\tPrimitives: " << std::endl;
-//        for(auto ele : action->primitives) {
-//            std::cout << "\t\t" <<searchDesUsingOpCode(ele->op) << ": ";
-//            for(auto p : ele->parameters) {
-//                std::cout << p << " ";
-//            }
-//            std::cout << std::endl;
-//        }
+        //        std::cout << "Action " << it.first << "(" <<
+        //        action->action_name << ")" << std::endl; std::cout <<
+        //        "\tProcessor: " << action->processor_id << std::endl;
+        //        std::cout << "\tPrimitives: " << std::endl;
+        //        for(auto ele : action->primitives) {
+        //            std::cout << "\t\t" <<searchDesUsingOpCode(ele->op) << ":
+        //            "; for(auto p : ele->parameters) {
+        //                std::cout << p << " ";
+        //            }
+        //            std::cout << std::endl;
+        //        }
     }
 }
 
 ExecuterConfig::ExecuterConfig(int processor_num) {
     cur_action_idx = 0;
 
-    for(int i = 0; i < processor_num; i++) {
+    for (int i = 0; i < processor_num; i++) {
         auto executer = new Executer(i);
         this->executer_map.insert(std::make_pair(i, executer));
     }
 }
 
 std::string ExecuterConfig::searchDesUsingOpCode(OpCode op) {
-    OpCodeMap  pc;
-    for(auto it : Op.opcode_map) {
-        if(it.second == op){
+    OpCodeMap pc;
+    for (auto it : Op.opcode_map) {
+        if (it.second == op) {
             return it.first;
         }
     }
 }
 
-int ExecuterConfig::getActionIdByName(const std::string & action_name) {
-    for(auto it : action_map) {
+int ExecuterConfig::getActionIdByName(const std::string& action_name) {
+    for (auto it : action_map) {
         if (it.second->action_name == action_name) {
             return it.second->action_id;
         }
@@ -293,14 +313,13 @@ int ExecuterConfig::getActionIdByName(const std::string & action_name) {
     return -1;
 }
 
-void ExecuterConfig::setProcessorNum(int processoNum){
+void ExecuterConfig::setProcessorNum(int processoNum) {
     this->processor_num = processoNum;
 
-    for(int i = 0; i < processor_num; i++) {
+    for (int i = 0; i < processor_num; i++) {
         auto executer = new Executer(i);
         this->executer_map.insert(std::make_pair(i, executer));
     }
 }
 
-
-#endif //GRPC_TEST_EXECUTER_CONFIG_H
+#endif // GRPC_TEST_EXECUTER_CONFIG_H

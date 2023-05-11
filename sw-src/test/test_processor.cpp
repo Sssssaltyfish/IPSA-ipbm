@@ -8,12 +8,12 @@
 
 int main() {
     uint8_t a[] = "\x11\x11";
-    PHV * phv = new PHV();
+    PHV* phv = new PHV();
 
     phv->match_value = a;
     phv->match_value_len = 2;
 
-    for(int i = 0 ; i < 2; i++) {
+    for (int i = 0; i < 2; i++) {
         std::cout << (int)phv->match_value[i] << std::endl;
     }
 

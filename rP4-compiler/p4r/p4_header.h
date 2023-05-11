@@ -1,9 +1,9 @@
 #pragma once
 
-#include <vector>
-#include <string>
 #include <algorithm>
 #include <iostream>
+#include <string>
+#include <vector>
 
 class P4HeaderField {
 public:
@@ -61,37 +61,41 @@ public:
     std::vector<P4HeaderType> header_types;
     std::vector<P4Header> headers;
     bool is_header(std::string name) const;
-    friend std::ostream & operator<<(std::ostream & out, P4Headers const & v);
+    friend std::ostream& operator<<(std::ostream& out, P4Headers const& v);
 };
 
 bool P4Headers::is_header(std::string name) const {
-    if (auto i = std::find_if(std::begin(headers), std::end(headers), [&](auto& h) { 
-        return h.header_type_name == name; 
-    }); i != std::end(headers) && !i->metadata) {
+    if (auto i =
+            std::find_if(std::begin(headers), std::end(headers),
+                         [&](auto& h) { return h.header_type_name == name; });
+        i != std::end(headers) && !i->metadata) {
         return true;
     }
     return false;
 }
 
-std::ostream & operator<<(std::ostream & out, P4Headers const & v) {
-    for (auto & h : v.header_types) {
+std::ostream& operator<<(std::ostream& out, P4Headers const& v) {
+    for (auto& h : v.header_types) {
         if (v.is_header(h.name)) {
             out << "header " << h.name << " {" << std::endl;
-            for (auto & f : h.fields) {
-                out << "\tbit<" << f.width << ">\t" << f.proper_name() << ";" << std::endl;
+            for (auto& f : h.fields) {
+                out << "\tbit<" << f.width << ">\t" << f.proper_name() << ";"
+                    << std::endl;
             }
             out << "}" << std::endl;
         }
     }
-    for (auto & h : v.headers) {
+    for (auto& h : v.headers) {
         if (h.metadata && h.header_type_name != "standard_metadata") {
             out << "struct " << h.translated_typename() << " {" << std::endl;
-            if (auto hi = std::find_if(std::begin(v.header_types), std::end(v.header_types), [&](auto & ht) {
-                return ht.name == h.header_type_name;
-            }); hi != std::end(v.header_types)) {
-                for (auto & f : hi->fields) {
+            if (auto hi = std::find_if(
+                    std::begin(v.header_types), std::end(v.header_types),
+                    [&](auto& ht) { return ht.name == h.header_type_name; });
+                hi != std::end(v.header_types)) {
+                for (auto& f : hi->fields) {
                     if (f.name.size() > 0 && f.name[0] != '_') {
-                        out << "\tbit<" << f.width << ">\t" << f.proper_name() << ";" << std::endl;
+                        out << "\tbit<" << f.width << ">\t" << f.proper_name()
+                            << ";" << std::endl;
                     }
                 }
             }
@@ -99,9 +103,10 @@ std::ostream & operator<<(std::ostream & out, P4Headers const & v) {
         }
     }
     out << "struct headers {" << std::endl;
-    for (auto & h : v.headers) {
+    for (auto& h : v.headers) {
         if (!h.metadata) {
-            out << "\t" << h.header_type_name << "\t" << h.name << ";" << std::endl;
+            out << "\t" << h.header_type_name << "\t" << h.name << ";"
+                << std::endl;
         }
     }
     return out << "} hdr;" << std::endl;

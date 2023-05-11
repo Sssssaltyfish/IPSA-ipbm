@@ -1,16 +1,16 @@
 #pragma once
 
-#include <vector>
-#include <string>
+#include "p4_action.h"
+#include "p4_field.h"
+#include "p4_rename.h"
 #include <algorithm>
-#include <tuple>
-#include <map>
-#include <set>
 #include <functional>
 #include <iostream>
-#include "p4_field.h"
-#include "p4_action.h"
-#include "p4_rename.h"
+#include <map>
+#include <set>
+#include <string>
+#include <tuple>
+#include <vector>
 
 class P4Key {
 public:
@@ -32,10 +32,10 @@ public:
     std::string key;
     int prefix_length;
     std::string mask;
-    friend std::ostream & operator<<(std::ostream & out, P4MatchKey const & mk);
+    friend std::ostream& operator<<(std::ostream& out, P4MatchKey const& mk);
 };
 
-std::ostream & operator<<(std::ostream & out, P4MatchKey const & mk) {
+std::ostream& operator<<(std::ostream& out, P4MatchKey const& mk) {
     out << mk.key;
     if (mk.match_type == "lpm") {
         out << " /// " << mk.prefix_length;
@@ -61,9 +61,7 @@ public:
     std::map<std::string, std::string> next_tables;
     P4DefaultEntry default_entry;
     std::vector<P4Entry> entries;
-    bool is_empty() const { 
-        return key.size() == 0 && actions.size() == 1;
-    }
+    bool is_empty() const { return key.size() == 0 && actions.size() == 1; }
 };
 
 class P4Conditional {
@@ -90,10 +88,13 @@ public:
     static P4Actions& actions;
     std::string translate_stage_name(const std::string& name) const;
     std::string translate_table_name(const std::string& name) const;
-    std::ostream & out_default_action(std::ostream & out, const P4Table& table, const P4DefaultEntry& default_entry) const;
-    std::ostream & out_action(std::ostream & out, const P4Table& table, const P4Entry& entry) const;
-    friend std::ostream & operator<<(std::ostream & out, P4Pipelines const & vp);
+    std::ostream& out_default_action(std::ostream& out, const P4Table& table,
+                                     const P4DefaultEntry& default_entry) const;
+    std::ostream& out_action(std::ostream& out, const P4Table& table,
+                             const P4Entry& entry) const;
+    friend std::ostream& operator<<(std::ostream& out, P4Pipelines const& vp);
     void create_hit_miss_actions();
+
 private:
     void initialize_stage_rename() const;
 };
@@ -119,14 +120,17 @@ void P4Pipelines::initialize_stage_rename() const {
     stage_rename = new P4Rename<P4Conditional>();
     auto& onames = stage_rename->original_names;
     for (auto& pipe : *this) {
-        stage_rename->add_names(pipe.conditionals, [](auto& c) { return c.name; });
+        stage_rename->add_names(pipe.conditionals,
+                                [](auto& c) { return c.name; });
         auto& init = pipe.init_table;
-        if (std::find(std::begin(onames), std::end(onames), init) == std::end(onames)) {
+        if (std::find(std::begin(onames), std::end(onames), init) ==
+            std::end(onames)) {
             stage_rename->add_name(init, true);
         }
         for (auto& t : pipe.tables) { // direct tables without gateway
             for (auto [key, value] : t.next_tables) {
-                if (std::find(std::begin(onames), std::end(onames), value) == std::end(onames)) {
+                if (std::find(std::begin(onames), std::end(onames), value) ==
+                    std::end(onames)) {
                     stage_rename->add_name(value, true);
                 }
             }
@@ -134,10 +138,13 @@ void P4Pipelines::initialize_stage_rename() const {
     }
 }
 
-std::ostream & P4Pipelines::out_default_action(std::ostream & out, const P4Table& table, const P4DefaultEntry& default_entry) const {
-    if (auto pos = std::find_if(std::begin(actions), std::end(actions), [&](auto& x) {
-        return x.id == default_entry.action_id;
-    }); pos != std::end(actions)) {
+std::ostream&
+P4Pipelines::out_default_action(std::ostream& out, const P4Table& table,
+                                const P4DefaultEntry& default_entry) const {
+    if (auto pos = std::find_if(
+            std::begin(actions), std::end(actions),
+            [&](auto& x) { return x.id == default_entry.action_id; });
+        pos != std::end(actions)) {
         out << actions.translate_name(pos->name, pos->id) /*<< "(";
         for (bool first = true; auto& d : default_entry.action_data) {
             if (!first) {
@@ -148,14 +155,16 @@ std::ostream & P4Pipelines::out_default_action(std::ostream & out, const P4Table
             out << d;
         }
         out << ")"
-        NOTE: we do not support parameters in default actions or actions in const entries
+        NOTE: we do not support parameters in default actions or actions in
+        const entries
         */
-        ;
+            ;
     }
     return out;
 }
 
-std::ostream & P4Pipelines::out_action(std::ostream & out, const P4Table& table, const P4Entry& entry) const {
+std::ostream& P4Pipelines::out_action(std::ostream& out, const P4Table& table,
+                                      const P4Entry& entry) const {
     out << "(";
     for (bool first = true; auto& k : entry.match_key) {
         if (!first) {
@@ -171,8 +180,9 @@ std::ostream & P4Pipelines::out_action(std::ostream & out, const P4Table& table,
 std::string P4Pipelines::translate_table_name(const std::string& name) const {
     if (table_rename == nullptr) {
         table_rename = new P4Rename<P4Table>();
-        for (auto & pipe : *this) {
-            table_rename->add_names(pipe.tables, [](auto& t) { return t.name; });
+        for (auto& pipe : *this) {
+            table_rename->add_names(pipe.tables,
+                                    [](auto& t) { return t.name; });
         }
     }
     return table_rename->get_name(name, 0);
@@ -185,35 +195,39 @@ std::string P4Pipelines::translate_stage_name(const std::string& name) const {
     return stage_rename->get_name(name, 0);
 }
 
-std::ostream & operator<<(std::ostream & out, P4Pipelines const & vp) {
+std::ostream& operator<<(std::ostream& out, P4Pipelines const& vp) {
     vp.initialize_stage_rename();
     auto is_stage = [&](std::string name) {
-        return std::find_if(std::begin(stage_rename->original_names), std::end(stage_rename->original_names), [&](auto& s) {
-            return s == name;
-        }) != std::end(stage_rename->original_names);
+        return std::find_if(std::begin(stage_rename->original_names),
+                            std::end(stage_rename->original_names),
+                            [&](auto& s) { return s == name; }) !=
+               std::end(stage_rename->original_names);
     };
-    auto is_true_stage = [&](std::string name, P4Pipeline const & p) {
-        return std::find_if(std::begin(p.conditionals), std::end(p.conditionals), [&](auto& c) {
-            return c.name == name;
-        }) != std::end(p.conditionals);
+    auto is_true_stage = [&](std::string name, P4Pipeline const& p) {
+        return std::find_if(std::begin(p.conditionals),
+                            std::end(p.conditionals), [&](auto& c) {
+                                return c.name == name;
+                            }) != std::end(p.conditionals);
     };
     out << "tables {" << std::endl;
-    for (auto & pipe : vp) {
-        for (auto & table : pipe.tables) {
-            out << "\ttable " << vp.translate_table_name(table.name) << " {" << std::endl;
+    for (auto& pipe : vp) {
+        for (auto& table : pipe.tables) {
+            out << "\ttable " << vp.translate_table_name(table.name) << " {"
+                << std::endl;
             out << "\t\tkey = {" << std::endl;
-            for (auto & key : table.key) {
-                out << "\t\t\t" << P4Field(key.target) << ": " << key.match_type << ";" << std::endl;
+            for (auto& key : table.key) {
+                out << "\t\t\t" << P4Field(key.target) << ": " << key.match_type
+                    << ";" << std::endl;
             }
             out << "\t\t}" << std::endl;
             out << "\t\tsize = " << table.max_size << ";" << std::endl;
             int value_width = 16;
             int action_param_width = 0;
-            for (auto & action_id : table.action_ids) {
-                for (auto & action : vp.actions) {
+            for (auto& action_id : table.action_ids) {
+                for (auto& action : vp.actions) {
                     if (action.id == action_id) {
                         int temp = 0;
-                        for (auto & param : action.runtime_data) {
+                        for (auto& param : action.runtime_data) {
                             temp += param.bitwidth;
                         }
                         action_param_width = std::max(action_param_width, temp);
@@ -223,11 +237,14 @@ std::ostream & operator<<(std::ostream & out, P4Pipelines const & vp) {
             }
             value_width += action_param_width;
             out << "\t\tvalue_width = " << value_width << ";" << std::endl;
-            vp.out_default_action(out << "\t\tdefault_action = ", table, table.default_entry) << ";" << std::endl;
+            vp.out_default_action(out << "\t\tdefault_action = ", table,
+                                  table.default_entry)
+                << ";" << std::endl;
             if (table.entries.size() > 0) {
                 out << "\t\tentries = {" << std::endl;
                 for (auto& entry : table.entries) {
-                    vp.out_action(out << "\t\t\t", table, entry) << ";" << std::endl;
+                    vp.out_action(out << "\t\t\t", table, entry)
+                        << ";" << std::endl;
                 }
                 out << "\t\t}" << std::endl;
             }
@@ -235,13 +252,14 @@ std::ostream & operator<<(std::ostream & out, P4Pipelines const & vp) {
         }
     }
     out << "}" << std::endl << std::endl;
-    for (auto & p : vp) {
+    for (auto& p : vp) {
         auto out_next = [&](std::string text) {
             if (text.size() == 0) {
                 out << "None";
             } else {
-                if (/*std::find_if(std::begin(p.conditionals), std::end(p.conditionals), [&](auto& cond) {
-                    return cond.name == text;
+                if (/*std::find_if(std::begin(p.conditionals),
+                std::end(p.conditionals), [&](auto& cond) { return cond.name ==
+                text;
                 }) != std::end(p.conditionals)*/
                     is_stage(text)) {
                     out << "stage(" << vp.translate_stage_name(text) << ")";
@@ -273,7 +291,8 @@ std::ostream & operator<<(std::ostream & out, P4Pipelines const & vp) {
             int x = -1;
             for (int i = 0; i < p.conditionals.size(); i++) {
                 if (p.conditionals[i].name == p.init_table) {
-                    x = i; break;
+                    x = i;
+                    break;
                 }
             }
             if (x >= 0) {
@@ -283,7 +302,8 @@ std::ostream & operator<<(std::ostream & out, P4Pipelines const & vp) {
             int x = -1;
             for (int i = 0; i < p.tables.size(); i++) {
                 if (p.tables[i].name == p.init_table) {
-                    x = i; break;
+                    x = i;
+                    break;
                 }
             }
             if (x >= 0) {
@@ -293,13 +313,17 @@ std::ostream & operator<<(std::ostream & out, P4Pipelines const & vp) {
         auto conditionals_output = [&]() {
             for (auto cp : conditionals) {
                 auto& c = *cp;
-                out << "\tstage " << vp.translate_stage_name(c.name) << " {" << std::endl;
+                out << "\tstage " << vp.translate_stage_name(c.name) << " {"
+                    << std::endl;
                 std::set<std::string> hdr_names;
                 for (auto table_name : {c.true_next, c.false_next}) {
-                    if (auto t = std::find_if(std::begin(p.tables), std::end(p.tables), [&](auto& table) {
-                        return table.name == table_name;
-                    }); t != std::end(p.tables)) {
-                        for (auto & key : t->key) {
+                    if (auto t = std::find_if(
+                            std::begin(p.tables), std::end(p.tables),
+                            [&](auto& table) {
+                                return table.name == table_name;
+                            });
+                        t != std::end(p.tables)) {
+                        for (auto& key : t->key) {
                             P4Field temp(key.target);
                             if (temp.is_header()) {
                                 hdr_names.insert(temp[0]);
@@ -338,8 +362,10 @@ std::ostream & operator<<(std::ostream & out, P4Pipelines const & vp) {
                 out << "\t\t\t}" << std::endl;
                 out << "\t\t};" << std::endl;
                 out << "\t\texecutor {" << std::endl;
-                for (auto t = std::begin(p.tables); t != std::end(p.tables); t++) {
-                    if ((t->name == c.true_next || t->name == c.false_next) && !is_stage(t->name)) {
+                for (auto t = std::begin(p.tables); t != std::end(p.tables);
+                     t++) {
+                    if ((t->name == c.true_next || t->name == c.false_next) &&
+                        !is_stage(t->name)) {
                         for (auto [key, value] : t->next_tables) {
                             int action_id = 0;
                             for (int i = 0; i < t->action_ids.size(); i++) {
@@ -349,9 +375,11 @@ std::ostream & operator<<(std::ostream & out, P4Pipelines const & vp) {
                             }
                             out << "\t\t\t";
                             if (key == "__HIT__" || key == "__MISS__") {
-                                out << vp.actions.translate_name(t->name + key, 0);
+                                out << vp.actions.translate_name(t->name + key,
+                                                                 0);
                             } else {
-                                out << vp.actions.translate_name(key, action_id);
+                                out << vp.actions.translate_name(key,
+                                                                 action_id);
                             }
                             out << ": ";
                             if (value.size() == 0) {
@@ -371,9 +399,10 @@ std::ostream & operator<<(std::ostream & out, P4Pipelines const & vp) {
             for (auto pt : tables) {
                 auto& t = *pt;
                 if (is_stage(t.name)) {
-                    out << "\tstage " << vp.translate_stage_name(t.name) << " {" << std::endl;
+                    out << "\tstage " << vp.translate_stage_name(t.name) << " {"
+                        << std::endl;
                     std::set<std::string> hdr_names;
-                    for (auto & key : t.key) {
+                    for (auto& key : t.key) {
                         P4Field temp(key.target);
                         if (temp.is_header()) {
                             hdr_names.insert(temp[0]);
@@ -386,7 +415,8 @@ std::ostream & operator<<(std::ostream & out, P4Pipelines const & vp) {
                     out << "\t\t};" << std::endl;
                     out << "\t\tmatcher {" << std::endl;
                     out << "\t\t\tswitch (1) {" << std::endl;
-                    out << "\t\t\t\t0b1: table(" << vp.translate_table_name(t.name) << ");" << std::endl;
+                    out << "\t\t\t\t0b1: table("
+                        << vp.translate_table_name(t.name) << ");" << std::endl;
                     out << "\t\t\t}" << std::endl;
                     out << "\t\t};" << std::endl;
                     out << "\t\texecutor {" << std::endl;

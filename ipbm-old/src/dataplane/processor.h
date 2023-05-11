@@ -1,17 +1,15 @@
 #pragma once
 
-#include "parser.h"
-#include "matcher.h"
 #include "executor.h"
-#include <net/ethernet.h>
-#include <linux/ip.h>
+#include "matcher.h"
+#include "parser.h"
 #include <cstring>
-#include <vector>
+#include <linux/ip.h>
 #include <map>
+#include <net/ethernet.h>
+#include <vector>
 
-enum ConditionType {
-    COND_NONE, COND_IS_VALID
-};
+enum ConditionType { COND_NONE, COND_IS_VALID };
 
 struct Condition {
     ConditionType type;
@@ -68,8 +66,8 @@ public:
     Matcher matcher;
     Executor executor;
     Condition cond;
-    NextStage true_next;      // Next table/processor id if condition is true
-    NextStage false_next;     // Next table/processor id if condition is false
+    NextStage true_next;  // Next table/processor id if condition is true
+    NextStage false_next; // Next table/processor id if condition is false
 
     bool eval_condition() const;
 

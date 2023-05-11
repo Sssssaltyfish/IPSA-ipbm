@@ -1,16 +1,16 @@
 #pragma once
 
 #include "action.h"
-#include "field.h"
-#include "bytearray.h"
 #include "bitmap.h"
+#include "bytearray.h"
 #include "defs.h"
+#include "field.h"
 #include <cassert>
 #include <cstring>
+#include <memory>
 #include <stdexcept>
 #include <utility>
 #include <vector>
-#include <memory>
 
 Buffer alloc_logical_sram(int phy_id, int num_bytes);
 
@@ -42,11 +42,11 @@ struct LogicTable {
 
 // Logical SRAM table, each with different entry length & num
 struct LogicSram : public LogicTable {
-    Buffer _bitmap;     // bitmap start
-    Buffer _data;       // entry start
-    int _key_len;       // key length
-    int _val_len;       // value length
-    int _cap;           // sram capacity
+    Buffer _bitmap; // bitmap start
+    Buffer _data;   // entry start
+    int _key_len;   // key length
+    int _val_len;   // value length
+    int _cap;       // sram capacity
 
     LogicSram(int phy_id, int key_len, int val_len, int num_entry) {
         _key_len = key_len;
@@ -75,7 +75,7 @@ struct LogicSram : public LogicTable {
         for (int i = 0; i < key_len; i++) {
             hash = hash * p + key[i];
         }
-        int bkt = (int) (hash % _cap);   // hash
+        int bkt = (int)(hash % _cap); // hash
         return bkt;
     }
 
@@ -121,10 +121,10 @@ struct LogicSram : public LogicTable {
 
 // Logical TCAM table
 struct LogicTcam : public LogicTable {
-    int _key_len;   // fixed key length
-    int _val_len;   // fixed value length
-    int _cap;       // capacity
-    int _size;      // current number of entries
+    int _key_len; // fixed key length
+    int _val_len; // fixed value length
+    int _cap;     // capacity
+    int _size;    // current number of entries
     Buffer _buf;
 
     LogicTcam(int phy_id, int key_len, int val_len, int cap) {
@@ -140,7 +140,9 @@ struct LogicTcam : public LogicTable {
     int val_len() const override { return _val_len; }
 
     Buffer get_entry(int pos) const override {
-        if (pos >= _cap) { throw std::out_of_range("TCAM entry out of range"); }
+        if (pos >= _cap) {
+            throw std::out_of_range("TCAM entry out of range");
+        }
         return _buf + pos * entry_len();
     }
 
@@ -174,7 +176,8 @@ struct LogicTcam : public LogicTable {
         return i;
     }
 
-    static void get_masked_key(InputBuffer key, InputBuffer mask, int len, Buffer out_key) {
+    static void get_masked_key(InputBuffer key, InputBuffer mask, int len,
+                               Buffer out_key) {
         for (int i = 0; i < len; i++) {
             out_key[i] = key[i] & mask[i];
         }
@@ -199,10 +202,10 @@ struct LogicTcam : public LogicTable {
     }
 
     int match_lpm(Buffer key) const override {
-        assert(_key_len == 4);   // TODO: only support 4-bytes LPM
+        assert(_key_len == 4); // TODO: only support 4-bytes LPM
         int pos = _size;
         for (uint32_t mask = UINT32_MAX; mask; mask <<= 1) {
-            pos = match_ternary(key, (Buffer) &mask);
+            pos = match_ternary(key, (Buffer)&mask);
             if (pos != _size) {
                 break;
             }
@@ -211,12 +214,12 @@ struct LogicTcam : public LogicTable {
     }
 };
 
-enum MemType {
-    MEM_SRAM, MEM_TCAM
-};
+enum MemType { MEM_SRAM, MEM_TCAM };
 
 enum MatchType {
-    MATCH_EXACT, MATCH_TERNARY, MATCH_LPM,
+    MATCH_EXACT,
+    MATCH_TERNARY,
+    MATCH_LPM,
 };
 
 class FlowTable {
@@ -232,11 +235,14 @@ public:
 
     FlowTable() = default;
 
-    FlowTable(uint8_t tag, int valLen, std::shared_ptr<LogicTable> logicTable, MemType memType,
-              MatchType matchType, std::vector<FieldSpec> keyFields, bool isCounter)
-            : tag(tag), key_len(0), val_len(valLen), logic_table(std::move(logicTable)), mem_type(memType),
-              match_type(matchType), key_fields(std::move(keyFields)), is_counter(isCounter) {
-        for (auto &key_field: key_fields) {
+    FlowTable(uint8_t tag, int valLen, std::shared_ptr<LogicTable> logicTable,
+              MemType memType, MatchType matchType,
+              std::vector<FieldSpec> keyFields, bool isCounter)
+        : tag(tag), key_len(0), val_len(valLen),
+          logic_table(std::move(logicTable)), mem_type(memType),
+          match_type(matchType), key_fields(std::move(keyFields)),
+          is_counter(isCounter) {
+        for (auto& key_field : key_fields) {
             key_len += key_field.len;
         }
     }

@@ -1,16 +1,16 @@
 #pragma once
 
+#include "action.h"
+#include "defs.h"
+#include "field.h"
 #include "processor.h"
 #include "table.h"
-#include "action.h"
-#include "field.h"
-#include "defs.h"
 #include <arpa/inet.h>
-#include <net/ethernet.h>
-#include <vector>
-#include <string>
-#include <memory>
 #include <map>
+#include <memory>
+#include <net/ethernet.h>
+#include <string>
+#include <vector>
 
 static const int TAB_ID_VLAN_GROUP = 1002;
 
@@ -50,15 +50,15 @@ struct Global {
     // Actions
     Action actions[NUM_ACTIONS];
     // packet meta data
-    MetaData meta_data;  // port mask
+    MetaData meta_data; // port mask
     // VLan group
     VLanGroup vlan_group;
 
     Global();
 
-    static void process_packet(uint8_t *packet, int recv_len, int if_idx);
+    static void process_packet(uint8_t* packet, int recv_len, int if_idx);
 };
 
 extern Global glb;
 
-void config_init(const std::string &config_path);
+void config_init(const std::string& config_path);

@@ -1,17 +1,13 @@
 #pragma once
 
-#include "rp4_stage_matcher.h"
 #include "ipsa_expression.h"
+#include "rp4_stage_matcher.h"
 
-enum IpsaGatewayEntryType {
-    GTW_ET_TABLE, GTW_ET_STAGE
-};
+enum IpsaGatewayEntryType { GTW_ET_TABLE, GTW_ET_STAGE };
 
 static inline std::string to_string(IpsaGatewayEntryType op) {
     static const std::map<IpsaGatewayEntryType, std::string> m = {
-        {GTW_ET_TABLE, "TABLE"},
-        {GTW_ET_STAGE, "STAGE"}
-    };
+        {GTW_ET_TABLE, "TABLE"}, {GTW_ET_STAGE, "STAGE"}};
     return m.at(op);
 }
 
@@ -24,8 +20,7 @@ public:
     virtual std::shared_ptr<IpsaValue> toIpsaValue() const {
         std::map<std::string, std::shared_ptr<IpsaValue>> dst = {
             {"type", makeValue(to_string(type))},
-            {"value", makeValue(getId())}
-        };
+            {"value", makeValue(getId())}};
         return makeValue(dst);
     }
 };
@@ -33,8 +28,8 @@ public:
 class IpsaGatewayTableEntry : public IpsaGatewayEntry {
 public:
     int matcher_id; // local id
-    int table_id; // global table id
-    IpsaGatewayTableEntry(int _table_id): table_id(_table_id) {
+    int table_id;   // global table id
+    IpsaGatewayTableEntry(int _table_id) : table_id(_table_id) {
         type = GTW_ET_TABLE;
     }
     virtual void setMatcherId(int table_id, int matcher_id) {
@@ -64,12 +59,11 @@ public:
     int bitmap;
     std::shared_ptr<IpsaGatewayEntry> value;
     IpsaNextTableEntry() {}
-    IpsaNextTableEntry(int _bitmap, std::shared_ptr<IpsaGatewayEntry> _value) : bitmap(_bitmap), value(std::move(_value)) {}
+    IpsaNextTableEntry(int _bitmap, std::shared_ptr<IpsaGatewayEntry> _value)
+        : bitmap(_bitmap), value(std::move(_value)) {}
     virtual std::shared_ptr<IpsaValue> toIpsaValue() const {
         std::map<std::string, std::shared_ptr<IpsaValue>> dst = {
-            {"bitmap", makeValue(bitmap)},
-            {"value", value->toIpsaValue()}
-        };
+            {"bitmap", makeValue(bitmap)}, {"value", value->toIpsaValue()}};
         return makeValue(dst);
     }
 };
@@ -88,8 +82,7 @@ public:
     virtual std::shared_ptr<IpsaValue> toIpsaValue() const {
         std::map<std::string, std::shared_ptr<IpsaValue>> dst = {
             {"default", default_entry->toIpsaValue()},
-            {"entries", makeValue(entries)}
-        };
+            {"entries", makeValue(entries)}};
         return makeValue(dst);
     }
 };
@@ -102,9 +95,7 @@ public:
     virtual std::shared_ptr<IpsaValue> toIpsaValue() const {
         std::map<std::string, std::shared_ptr<IpsaValue>> dst = {
             {"expressions", makeValue(expressions)},
-            {"next_table", next_table.toIpsaValue()}
-        };
+            {"next_table", next_table.toIpsaValue()}};
         return makeValue(dst);
     }
 };
-

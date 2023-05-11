@@ -1,8 +1,8 @@
 #pragma once
 
-#include "ipsa_processor_manager.h"
-#include "ipsa_distribution.h"
 #include "ipsa_configuration.h"
+#include "ipsa_distribution.h"
+#include "ipsa_processor_manager.h"
 
 class IpsaMemory {
 public:
@@ -13,21 +13,22 @@ public:
     std::map<int, std::pair<int, int>> table_space;
     std::map<int, std::pair<int, int>> proc_space;
     std::map<int, int> physical_proc_id;
-    IpsaMemory(IpsaProcessorManager* _processor_manager, IpsaDistribution* _distribution): 
-        processor_manager(_processor_manager), distribution(_distribution) {}
+    IpsaMemory(IpsaProcessorManager* _processor_manager,
+               IpsaDistribution* _distribution)
+        : processor_manager(_processor_manager), distribution(_distribution) {}
     void allocateMemory();
     void calculateTableSpace();
     void removeAllEntries();
 };
 
-void IpsaMemory::removeAllEntries() {
+inline void IpsaMemory::removeAllEntries() {
     tables.clear();
     table_space.clear();
     proc_space.clear();
     physical_proc_id.clear();
 }
 
-void IpsaMemory::calculateTableSpace() {
+inline void IpsaMemory::calculateTableSpace() {
     // table_id -> space
     for (auto& [name, table] : processor_manager->table_manager->tables) {
         int sram_number = 0;
@@ -43,7 +44,9 @@ void IpsaMemory::calculateTableSpace() {
     }
     // proc -> space
     for (auto& stage : processor_manager->stage_manager->logical_stages) {
-        if (stage.removed) { continue; }
+        if (stage.removed) {
+            continue;
+        }
         int sram_number = 0;
         int tcam_number = 0;
         for (int table_id : stage.table_id) {
@@ -51,19 +54,17 @@ void IpsaMemory::calculateTableSpace() {
             tcam_number += table_space[table_id].second;
         }
         proc_space.insert({{stage.stage_id, {sram_number, tcam_number}}});
-    }  
+    }
 }
 
-void IpsaMemory::allocateMemory() {
+inline void IpsaMemory::allocateMemory() {
     calculateTableSpace();
     // allocate memory
     std::vector<std::pair<int, int>> cluster_space; // space in clusters
-    std::vector<std::vector<int>> cluster_proc; // proc id in clusters
+    std::vector<std::vector<int>> cluster_proc;     // proc id in clusters
     for (int i = 0; i < ipsa_configuration::CLUSTER_COUNT; i++) {
-        cluster_space.push_back({
-            ipsa_configuration::CLUSTER_SRAM_COUNT,
-            ipsa_configuration::CLUSTER_TCAM_COUNT
-        });
+        cluster_space.push_back({ipsa_configuration::CLUSTER_SRAM_COUNT,
+                                 ipsa_configuration::CLUSTER_TCAM_COUNT});
         cluster_proc.push_back({});
     }
     for (int i = 0; i < ipsa_configuration::PROC_COUNT; i++) {
@@ -72,14 +73,15 @@ void IpsaMemory::allocateMemory() {
     for (int stage_id : distribution->topo_sequence) {
         int target = -1;
         for (int i = 0; i < ipsa_configuration::CLUSTER_COUNT; i++) {
-            if (cluster_proc[i].size() < ipsa_configuration::CLUSTER_PROC_COUNT &&
+            if (cluster_proc[i].size() <
+                    ipsa_configuration::CLUSTER_PROC_COUNT &&
                 cluster_space[i].first >= proc_space[stage_id].first &&
                 cluster_space[i].second >= proc_space[stage_id].second) {
                 cluster_space[i] = {
                     cluster_space[i].first - proc_space[stage_id].first,
-                    cluster_space[i].second - proc_space[stage_id].second
-                };
-                target = i * ipsa_configuration::CLUSTER_PROC_COUNT + cluster_proc[i].size();
+                    cluster_space[i].second - proc_space[stage_id].second};
+                target = i * ipsa_configuration::CLUSTER_PROC_COUNT +
+                         cluster_proc[i].size();
                 cluster_proc[i].push_back(stage_id);
                 break;
             }
@@ -87,7 +89,8 @@ void IpsaMemory::allocateMemory() {
         if (target >= 0) {
             physical_proc_id[target] = stage_id;
         } else {
-            std::cout << "error cannot allocate memory for stage " << stage_id << std::endl;
+            std::cout << "error cannot allocate memory for stage " << stage_id
+                      << std::endl;
         }
     }
     // set configs
@@ -98,11 +101,14 @@ void IpsaMemory::allocateMemory() {
     std::map<int, int> proc_cluster;
     for (int i = 0; i < ipsa_configuration::PROC_COUNT; i++) {
         if (physical_proc_id[i] >= 0) {
-            proc_cluster.insert({{physical_proc_id[i], i / ipsa_configuration::CLUSTER_PROC_COUNT}});
+            proc_cluster.insert({{physical_proc_id[i],
+                                  i / ipsa_configuration::CLUSTER_PROC_COUNT}});
         }
     }
     for (auto& stage : processor_manager->stage_manager->logical_stages) {
-        if (stage.removed) { continue; }
+        if (stage.removed) {
+            continue;
+        }
         auto [x, y] = cluster_number[proc_cluster[stage.stage_id]];
         for (int table_id : stage.table_id) {
             auto table = tables[table_id];

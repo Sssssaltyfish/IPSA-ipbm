@@ -5,8 +5,6 @@
 #ifndef CONTROLLER_FLOW_ENTRY_H
 #define CONTROLLER_FLOW_ENTRY_H
 
-class FlowEntry {
+class FlowEntry {};
 
-};
-
-#endif //CONTROLLER_FLOW_ENTRY_H
+#endif // CONTROLLER_FLOW_ENTRY_H

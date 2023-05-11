@@ -2,35 +2,34 @@
 // Created by fengyong on 2021/2/14.
 //
 
+#include <cstring>
 #include <fstream>
 #include <iostream>
-#include <cstring>
 
 #include "../include/parser.h"
 
 int main() {
 
-//    auto p = new Parser();
-//    p->initializeFromPlainFile("../config/header.txt");
-//    p->fillFatherHeaderInfo();
-//    p->printHeaderInfo();
+    //    auto p = new Parser();
+    //    p->initializeFromPlainFile("../config/header.txt");
+    //    p->fillFatherHeaderInfo();
+    //    p->printHeaderInfo();
 
     auto parser = new Parser();
     parser->initializeFromJson("../config/header.json");
     parser->printHeaderInfo();
 
-//    auto p = new Parser();
-//    p->initializeFromFile1("../config/header.txt");
-//    p->fillFatherHeaderInfo();
-//    p->printHeaderInfo();
-
+    //    auto p = new Parser();
+    //    p->initializeFromFile1("../config/header.txt");
+    //    p->fillFatherHeaderInfo();
+    //    p->printHeaderInfo();
 
     auto mpls = new Header();
     mpls->header_name = "mpls";
     mpls->header_id = 9;
     mpls->header_length = 32;
     mpls->header_tag = "0x8847";
-    mpls->father_header_ids = {1,2};
+    mpls->father_header_ids = {1, 2};
 
     std::vector<int> field_ids;
     auto f1 = new Field();
@@ -73,42 +72,91 @@ int main() {
     return 0;
 
 #ifdef READ_FILE
-    Header ethernet = {1, "ethernet", std::vector<int>{},
-                       "", 112, 96, 16,
-                       std::vector<int>{1,2,3}, std::vector<int>{2,3,4,5}};
+    Header ethernet = {1,
+                       "ethernet",
+                       std::vector<int>{},
+                       "",
+                       112,
+                       96,
+                       16,
+                       std::vector<int>{1, 2, 3},
+                       std::vector<int>{2, 3, 4, 5}};
 
-    Header vlan = {2, "vlan", std::vector<int>{1, 2},
-                   "0x8100", 32, 16, 16,
-                   std::vector<int>{4,5,6,7}, std::vector<int>{2,3,4,5}};
+    Header vlan = {2,
+                   "vlan",
+                   std::vector<int>{1, 2},
+                   "0x8100",
+                   32,
+                   16,
+                   16,
+                   std::vector<int>{4, 5, 6, 7},
+                   std::vector<int>{2, 3, 4, 5}};
 
-    Header ipv4 = {3, "ipv4", std::vector<int>{1,2},
-                   "0x0800", -9, 72, 8,
-                   std::vector<int>{8,9,10,11,12,13,14,15,16,17,18,19,20}, std::vector<int>{6,7}};
+    Header ipv4 = {
+        3,
+        "ipv4",
+        std::vector<int>{1, 2},
+        "0x0800",
+        -9,
+        72,
+        8,
+        std::vector<int>{8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20},
+        std::vector<int>{6, 7}};
 
-    Header ipv6 = {4, "ipv6", std::vector<int>{1,2},
-                   "0x86DD", 320, 48, 8,
-                   std::vector<int>{21,22,23,24,25,26,27,28}, std::vector<int>{6,7}};
+    Header ipv6 = {4,
+                   "ipv6",
+                   std::vector<int>{1, 2},
+                   "0x86DD",
+                   320,
+                   48,
+                   8,
+                   std::vector<int>{21, 22, 23, 24, 25, 26, 27, 28},
+                   std::vector<int>{6, 7}};
 
-    Header arp = {5, "arp", std::vector<int>{1,2},
-                  "0x0806", 224, 0, 0,
-                  std::vector<int>{29,30,31,32,33,34,35,36,37}, std::vector<int>{}};
+    Header arp = {5,
+                  "arp",
+                  std::vector<int>{1, 2},
+                  "0x0806",
+                  224,
+                  0,
+                  0,
+                  std::vector<int>{29, 30, 31, 32, 33, 34, 35, 36, 37},
+                  std::vector<int>{}};
 
-    Header rarp = {6, "rarp", std::vector<int>{1,2},
-                  "0x8035", 224, 0, 0,
-                  std::vector<int>{38,39,40,41,42,43,44,45,46}, std::vector<int>{}};
+    Header rarp = {6,
+                   "rarp",
+                   std::vector<int>{1, 2},
+                   "0x8035",
+                   224,
+                   0,
+                   0,
+                   std::vector<int>{38, 39, 40, 41, 42, 43, 44, 45, 46},
+                   std::vector<int>{}};
 
+    Header tcp = {7,
+                  "tcp",
+                  std::vector<int>{3, 4},
+                  "6",
+                  160,
+                  0,
+                  0,
+                  std::vector<int>{47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57,
+                                   58, 59, 60, 61},
+                  std::vector<int>{}};
 
-    Header tcp = {7, "tcp", std::vector<int>{3,4},
-                  "6", 160, 0, 0,
-                  std::vector<int>{47,48,49,50,51,52,53,54,55,56,57,58,59,60,61}, std::vector<int>{}};
+    Header udp = {8,
+                  "udp",
+                  std::vector<int>{3, 4},
+                  "17",
+                  64,
+                  0,
+                  0,
+                  std::vector<int>{62, 63, 64, 65},
+                  std::vector<int>{}};
 
-    Header udp = {8, "udp", std::vector<int>{3,4},
-                  "17", 64, 0, 0,
-                  std::vector<int>{62,63,64,65}, std::vector<int>{}};
-
-    std::vector<Header> headers {ethernet, vlan, ipv4, ipv6, arp, rarp, tcp, udp};
+    std::vector<Header> headers{ethernet, vlan, ipv4, ipv6,
+                                arp,      rarp, tcp,  udp};
     p->setHeaders(headers);
-
 
     auto p = new Parser();
 
@@ -117,7 +165,7 @@ int main() {
     std::vector<NextHeader*> next_headers;
 
     std::ifstream in("../config/header.txt");
-    //std::string s;
+    // std::string s;
     char s[255];
 
     int header_id;
@@ -146,15 +194,17 @@ int main() {
             continue;
 
         if (s[0] == 'h') {
-            sscanf(s, "h %d %d %d %s", &header_id, &field_num, &header_length, header_name);
+            sscanf(s, "h %d %d %d %s", &header_id, &field_num, &header_length,
+                   header_name);
             auto h = new Header();
             h->setHeaderId(header_id);
             h->setHeaderName(header_name);
             h->setHeaderLength(header_length);
             headers.push_back(h);
             header_map.insert(std::make_pair(header_id, h));
-        } else if (s[0] == 'f'){
-            sscanf(s, "f %d.%d %d %d %s", &header_id, &field_id, &field_length, &field_internal_offset, field_name);
+        } else if (s[0] == 'f') {
+            sscanf(s, "f %d.%d %d %d %s", &header_id, &field_id, &field_length,
+                   &field_internal_offset, field_name);
             auto f = new Field();
             f->field_length = field_length;
             f->field_id = field_id;
@@ -163,26 +213,30 @@ int main() {
             fields.push_back(f);
             field_map.insert(std::make_pair(field_id, f));
             header_map[header_id]->fields.push_back(field_id);
-        } else if(s[0] == 'n') {
-            sscanf(s, "n.%d %d %d", &header_id, &next_header_type_internal_offset, &next_header_type_length);
+        } else if (s[0] == 'n') {
+            sscanf(s, "n.%d %d %d", &header_id,
+                   &next_header_type_internal_offset, &next_header_type_length);
             if (next_header_type_length == 0)
                 continue;
-            header_map[header_id]->next_header_type_internal_offset = next_header_type_internal_offset;
-            header_map[header_id]->next_header_type_length = next_header_type_length;
-        } else if(s[0] == 'm') {
-            sscanf(s, "m.%d %s %d %s", &header_id, next_header_tag, &next_header_id, next_header_name);
-            //std::cout << next_header_tag << std::endl;
-            if(std::string(next_header_tag) == "0")
+            header_map[header_id]->next_header_type_internal_offset =
+                next_header_type_internal_offset;
+            header_map[header_id]->next_header_type_length =
+                next_header_type_length;
+        } else if (s[0] == 'm') {
+            sscanf(s, "m.%d %s %d %s", &header_id, next_header_tag,
+                   &next_header_id, next_header_name);
+            // std::cout << next_header_tag << std::endl;
+            if (std::string(next_header_tag) == "0")
                 continue;
             header_map[header_id]->next_header_ids.push_back(next_header_id);
             auto nh = new NextHeader();
             nh->next_header_id = next_header_id;
-            //nh->header_id = header_id;
+            // nh->header_id = header_id;
             std::strcpy(nh->next_header_tag, next_header_tag);
             std::strcpy(nh->next_header_name, next_header_name);
             next_header_map.insert(std::make_pair(next_header_id, nh));
             next_headers.push_back(nh);
-        }else {
+        } else {
             std::cout << s << std::endl;
         }
     }
@@ -195,13 +249,12 @@ int main() {
     p->fillFatherHeaderInfo();
     p->printHeaderInfo();
 
-
     auto mpls = new Header();
     strcpy(mpls->header_name, "mpls");
     mpls->header_id = 9;
     mpls->header_length = 32;
     strcpy(mpls->header_tag, "0x8847");
-    mpls->father_header_ids = {1,2};
+    mpls->father_header_ids = {1, 2};
 
     std::vector<int> field_ids;
     auto f1 = new Field();
@@ -239,11 +292,11 @@ int main() {
     mpls->fields = field_ids;
     p->addHeader(mpls);
 
-    //p->fillFatherHeaderInfo();
+    // p->fillFatherHeaderInfo();
     p->printHeaderInfo();
 
     return 0;
-    //initializeParserWithHeaderFile();
-    //addHeaderInFSM();
+    // initializeParserWithHeaderFile();
+    // addHeaderInFSM();
 #endif
 }

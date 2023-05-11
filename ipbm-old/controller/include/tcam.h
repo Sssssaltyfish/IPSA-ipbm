@@ -10,8 +10,8 @@
 
 class TCAM {
 public:
-    TCAM(): capacity(-1), free_capacity(-1) {};
-    explicit TCAM(int configLength) : config_length(configLength) {};
+    TCAM() : capacity(-1), free_capacity(-1){};
+    explicit TCAM(int configLength) : config_length(configLength){};
     int getTcamId() const;
     void setTcamId(int tcamId);
     int getCapacity() const;
@@ -34,55 +34,33 @@ private:
     int entry_num;
 };
 
-int TCAM::getTcamId() const {
-    return tcam_id;
-}
+int TCAM::getTcamId() const { return tcam_id; }
 
-void TCAM::setTcamId(int tcamId) {
-    tcam_id = tcamId;
-}
+void TCAM::setTcamId(int tcamId) { tcam_id = tcamId; }
 
-int TCAM::getCapacity() const {
-    return capacity;
-}
+int TCAM::getCapacity() const { return capacity; }
 
 void TCAM::setCapacity(int cap) {
     this->capacity = cap;
     this->free_capacity = cap;
-
 }
 
-int TCAM::getFreeCapacity() const {
-    return free_capacity;
-}
+int TCAM::getFreeCapacity() const { return free_capacity; }
 
-void TCAM::setFreeCapacity(int freeCapacity) {
-    free_capacity = freeCapacity;
-}
+void TCAM::setFreeCapacity(int freeCapacity) { free_capacity = freeCapacity; }
 
-int TCAM::getConfigLength() const {
-    return config_length;
-}
+int TCAM::getConfigLength() const { return config_length; }
 
-void TCAM::setConfigLength(int configLength) {
-    config_length = configLength;
-}
+void TCAM::setConfigLength(int configLength) { config_length = configLength; }
 
-int TCAM::getLogicalTableId() const {
-    return logical_table_id;
-}
+int TCAM::getLogicalTableId() const { return logical_table_id; }
 
 void TCAM::setLogicalTableId(int logicalTableId) {
     this->logical_table_id = logicalTableId;
 }
 
-int TCAM::getEntryNum() const {
-    return this->entry_num;
-}
+int TCAM::getEntryNum() const { return this->entry_num; }
 
-void TCAM::setEntryNum(int entryNum) {
-    this->entry_num = entryNum;
-}
+void TCAM::setEntryNum(int entryNum) { this->entry_num = entryNum; }
 
-
-#endif //GRPC_TEST_TCAM_H
+#endif // GRPC_TEST_TCAM_H

@@ -5,12 +5,8 @@
 #ifndef GRPC_TEST_ENUMS_H
 #define GRPC_TEST_ENUMS_H
 
-enum class MatchType {
-    EXACT, TERNARY, LPM, RANGE, NONE
-};
+enum class MatchType { EXACT, TERNARY, LPM, RANGE, NONE };
 
-enum class MemType {
-    MEM_SRAM, MEM_TCAM, NONE
-};
+enum class MemType { MEM_SRAM, MEM_TCAM, NONE };
 
-#endif //GRPC_TEST_ENUMS_H
+#endif // GRPC_TEST_ENUMS_H

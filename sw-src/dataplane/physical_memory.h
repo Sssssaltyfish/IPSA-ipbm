@@ -5,12 +5,8 @@
 #ifndef RECONF_SWITCH_IPSA_PHYSICAL_MEMORY_H
 #define RECONF_SWITCH_IPSA_PHYSICAL_MEMORY_H
 
-struct SramBlock {
+struct SramBlock {};
 
-};
+struct TcamBlock {};
 
-struct TcamBlock {
-
-};
-
-#endif //RECONF_SWITCH_IPSA_PHYSICAL_MEMORY_H
+#endif // RECONF_SWITCH_IPSA_PHYSICAL_MEMORY_H

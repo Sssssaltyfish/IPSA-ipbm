@@ -1,8 +1,8 @@
 #pragma once
 
-#include <vector>
-#include <string>
 #include <iostream>
+#include <string>
+#include <vector>
 
 class ParserOperation {
 public:
@@ -26,7 +26,7 @@ public:
     std::string name;
     std::vector<ParserOperation> parser_ops;
     std::vector<Transition> transitions;
-    std::vector<TransitionKey> transition_key;    
+    std::vector<TransitionKey> transition_key;
 };
 
 class P4Parser {
@@ -37,16 +37,18 @@ public:
 };
 
 class P4Parsers : public std::vector<P4Parser> {
-    friend std::ostream & operator<<(std::ostream & out, P4Parsers const & vp);
+    friend std::ostream& operator<<(std::ostream& out, P4Parsers const& vp);
 };
 
-std::ostream & operator<<(std::ostream & out, P4Parsers const & vp) {
-    for (auto & p : vp) {
-        out << "parser " << (p.name == "parser" ? "MyParser" : p.name) << "(packet_in packet) {" << std::endl;
-        for (auto & ps : p.parse_states) {
+std::ostream& operator<<(std::ostream& out, P4Parsers const& vp) {
+    for (auto& p : vp) {
+        out << "parser " << (p.name == "parser" ? "MyParser" : p.name)
+            << "(packet_in packet) {" << std::endl;
+        for (auto& ps : p.parse_states) {
             out << "\tstate " << ps.name << " {" << std::endl;
-            for (auto & op : ps.parser_ops) {
-                out << "\t\tpacket.extract(hdr." << op.parameter_name << ");" << std::endl;
+            for (auto& op : ps.parser_ops) {
+                out << "\t\tpacket.extract(hdr." << op.parameter_name << ");"
+                    << std::endl;
             }
             if (ps.transition_key.size() > 0) {
                 out << "\t\ttransition select(";
@@ -57,12 +59,12 @@ std::ostream & operator<<(std::ostream & out, P4Parsers const & vp) {
                         first = false;
                     }
                     out << "hdr";
-                    for (auto & v : tk.value) {
+                    for (auto& v : tk.value) {
                         out << "." << v;
                     }
                 }
                 out << ") {" << std::endl;
-                for (auto & tr : ps.transitions) {
+                for (auto& tr : ps.transitions) {
                     out << "\t\t\t" << tr.value;
                     if (tr.mask.size() > 0) {
                         out << " &&& " << tr.mask;
@@ -78,7 +80,7 @@ std::ostream & operator<<(std::ostream & out, P4Parsers const & vp) {
                 out << "\t\t}" << std::endl;
             } else {
                 out << "\t\ttransition ";
-                for (auto & tr : ps.transitions) {
+                for (auto& tr : ps.transitions) {
                     if (tr.next_state.size() > 0) {
                         out << tr.next_state;
                     } else {

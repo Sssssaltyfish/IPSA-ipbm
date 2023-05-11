@@ -1,6 +1,6 @@
 #include "rp4_compiler.h"
-#include "ipsa_output.h"
 #include "ipsa_builder.h"
+#include "ipsa_output.h"
 
 IpsaBuilder builder;
 

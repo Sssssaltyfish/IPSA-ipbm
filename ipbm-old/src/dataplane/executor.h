@@ -3,8 +3,8 @@
 #include "action.h"
 
 struct RuntimeArgSpec {
-    int val_offset;     // offset from start of the entry value
-    int len;            // arg len
+    int val_offset; // offset from start of the entry value
+    int len;        // arg len
 
     RuntimeArgSpec() = default;
 
@@ -23,9 +23,9 @@ public:
 
     Executor(int hitAction, int hitNextProc, int missAction, int missNextProc,
              std::vector<RuntimeArgSpec> runtimeArgSpecs)
-            : hit_action(hitAction), hit_next_proc(hitNextProc), miss_action(missAction),
-              miss_next_proc(missNextProc), runtime_arg_specs(std::move(runtimeArgSpecs)) {
-    }
+        : hit_action(hitAction), hit_next_proc(hitNextProc),
+          miss_action(missAction), miss_next_proc(missNextProc),
+          runtime_arg_specs(std::move(runtimeArgSpecs)) {}
 
     int execute(Buffer match_val);
 

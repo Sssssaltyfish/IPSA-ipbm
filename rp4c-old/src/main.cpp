@@ -1,18 +1,18 @@
-#include "parser/parser.h"
 #include "backend/json_emitter.h"
-#include <iostream>
+#include "parser/parser.h"
 #include <fstream>
+#include <iostream>
 
-void print_usage(const char *name) {
+void print_usage(const char* name) {
     std::cout << "Usage: " << name << " PROG_FILE\n";
 }
 
-int main(int argc, char **argv) {
+int main(int argc, char** argv) {
     if (argc != 2) {
         print_usage(argv[0]);
         exit(EXIT_FAILURE);
     }
-    const char *filename = argv[1];
+    const char* filename = argv[1];
     Parser parser;
     if (parser.parse(filename) == 0) {
         parser.print();

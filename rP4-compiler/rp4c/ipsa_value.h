@@ -1,9 +1,9 @@
 #pragma once
 
-#include <vector>
-#include <string>
 #include <map>
 #include <memory>
+#include <string>
+#include <vector>
 
 class IpsaValue {
 public:
@@ -32,7 +32,8 @@ public:
 class IpsaList : public IpsaValue {
 public:
     std::vector<std::shared_ptr<IpsaValue>> value;
-    IpsaList(std::vector<std::shared_ptr<IpsaValue>> _value): value(std::move(_value)) {}
+    IpsaList(std::vector<std::shared_ptr<IpsaValue>> _value)
+        : value(std::move(_value)) {}
     virtual bool isList() const { return true; }
     auto& getValue() const { return value; }
 };
@@ -40,7 +41,8 @@ public:
 class IpsaDict : public IpsaValue {
 public:
     std::map<std::string, std::shared_ptr<IpsaValue>> value;
-    IpsaDict(std::map<std::string, std::shared_ptr<IpsaValue>> _value): value(std::move(_value)) {}
+    IpsaDict(std::map<std::string, std::shared_ptr<IpsaValue>> _value)
+        : value(std::move(_value)) {}
     virtual bool isDict() const { return true; }
     auto& getValue() const { return value; }
 };
@@ -53,10 +55,12 @@ std::shared_ptr<IpsaValue> makeValue(std::string _value) {
     return std::make_shared<IpsaString>(_value);
 }
 
-std::shared_ptr<IpsaValue> makeValue(std::vector<std::shared_ptr<IpsaValue>> _value) {
+std::shared_ptr<IpsaValue>
+makeValue(std::vector<std::shared_ptr<IpsaValue>> _value) {
     return std::make_shared<IpsaList>(_value);
 }
 
-std::shared_ptr<IpsaValue> makeValue(std::map<std::string, std::shared_ptr<IpsaValue>> _value) {
+std::shared_ptr<IpsaValue>
+makeValue(std::map<std::string, std::shared_ptr<IpsaValue>> _value) {
     return std::make_shared<IpsaDict>(_value);
 }

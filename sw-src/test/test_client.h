@@ -12,12 +12,12 @@ struct Cup {
     int b = 0;
 };
 
-Cup * cup;
+Cup* cup;
 
-void Run(Cup * c) {
+void Run(Cup* c) {
     cup = c;
     sleep(5);
     cup->a = 6;
 }
 
-#endif //RECONF_SWITCH_IPSA_TEST_CLIENT_H
+#endif // RECONF_SWITCH_IPSA_TEST_CLIENT_H

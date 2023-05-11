@@ -13,7 +13,7 @@ static uint8_t physical_tcams[NUM_PHYSICAL_TCAM][PHYSICAL_TCAM_CAPACITY];
 static int physical_tcam_top[NUM_PHYSICAL_TCAM];
 
 Buffer alloc_logical_sram(int phy_id, int num_bytes) {
-    int &top = physical_sram_top[phy_id];
+    int& top = physical_sram_top[phy_id];
     Buffer buf = physical_srams[phy_id] + top;
     top += num_bytes;
     if (top > PHYSICAL_SRAM_CAPACITY) {
@@ -23,7 +23,7 @@ Buffer alloc_logical_sram(int phy_id, int num_bytes) {
 }
 
 Buffer alloc_logical_tcam(int phy_id, int num_bytes) {
-    int &top = physical_tcam_top[phy_id];
+    int& top = physical_tcam_top[phy_id];
     Buffer buf = physical_tcams[phy_id] + top;
     top += num_bytes;
     if (top > PHYSICAL_SRAM_CAPACITY) {

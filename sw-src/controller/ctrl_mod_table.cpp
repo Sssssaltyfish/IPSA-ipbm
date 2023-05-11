@@ -6,17 +6,17 @@
 
 #define MAIN
 
-int main (int argc, char * argv[]) {
+int main(int argc, char* argv[]) {
 
 #ifndef NO_CFG
     api::CfgClient cfg(grpc::CreateChannel("localhost:50051",
                                            grpc::InsecureChannelCredentials()));
 
-    #ifdef MAIN
+#ifdef MAIN
     extract(argv[1], cfg);
-    #else
+#else
     extract("../../sw-src/controller/update.json", cfg);
-    #endif
+#endif
 
 #else
     extract("../../sw-src/controller/update.json");

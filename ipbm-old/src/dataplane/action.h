@@ -1,7 +1,7 @@
 #pragma once
 
-#include "field.h"
 #include "defs.h"
+#include "field.h"
 #include <vector>
 
 static const int MAX_COUNTER_KEYS = 8;
@@ -16,9 +16,7 @@ enum OpType {
     OP_SET_MULTICAST = 6,
 };
 
-enum HashType {
-    HASH_CSUM16
-};
+enum HashType { HASH_CSUM16 };
 
 struct Primitive {
     OpType type;
@@ -60,32 +58,33 @@ struct Primitive {
 
     Primitive(OpType type_) : type(type_) {}
 
-    static Primitive cksum(const FieldSpec &cksum_field, const FieldSpec &dst_field, HashType hash_type) {
+    static Primitive cksum(const FieldSpec& cksum_field,
+                           const FieldSpec& dst_field, HashType hash_type) {
         Primitive op(OP_CKSUM);
         op.args_cksum = {
-                .cksum_field = cksum_field,
-                .dst_field = dst_field,
-                .hash_type = hash_type,
+            .cksum_field = cksum_field,
+            .dst_field = dst_field,
+            .hash_type = hash_type,
         };
         return op;
     }
 
-    static Primitive add(const FieldSpec &field, int delta) {
+    static Primitive add(const FieldSpec& field, int delta) {
         Primitive op(OP_ADD);
         op.args_add = {
-                .field = field,
-                .delta = delta,
+            .field = field,
+            .delta = delta,
         };
         return op;
     }
 
-    static Primitive copy_field(const FieldSpec &dst, const FieldSpec &src) {
+    static Primitive copy_field(const FieldSpec& dst, const FieldSpec& src) {
         Primitive op(OP_COPY_FIELD);
         op.args_copy_field = {.dst = dst, .src = src};
         return op;
     }
 
-    static Primitive set_field(const FieldSpec &dst, int arg_src) {
+    static Primitive set_field(const FieldSpec& dst, int arg_src) {
         Primitive op(OP_SET_FIELD);
         op.args_set_field = {.dst = dst, .arg_src = arg_src};
         return op;

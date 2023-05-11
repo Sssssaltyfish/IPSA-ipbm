@@ -11,27 +11,30 @@ public:
     IpsaTableManager* table_manager;
     int global_gateway_id;
     std::vector<IpsaGateway> gateways;
-    IpsaGatewayManager(IpsaHeaderManager* _header_manager, IpsaStageManager* _stage_manager, IpsaTableManager* _table_manager):
-        header_manager(_header_manager), stage_manager(_stage_manager), table_manager(_table_manager) {}
+    IpsaGatewayManager(IpsaHeaderManager* _header_manager,
+                       IpsaStageManager* _stage_manager,
+                       IpsaTableManager* _table_manager)
+        : header_manager(_header_manager), stage_manager(_stage_manager),
+          table_manager(_table_manager) {}
     void load();
 };
 
-void IpsaGatewayManager::load() {
+inline void IpsaGatewayManager::load() {
     global_gateway_id = 0;
-    auto make_gateway_entry = [&](const Rp4SwitchEntry& entry) -> std::shared_ptr<IpsaGatewayEntry> {
+    auto make_gateway_entry =
+        [&](const Rp4SwitchEntry& entry) -> std::shared_ptr<IpsaGatewayEntry> {
         if (entry.value->isTableStmt()) {
-            auto name = std::static_pointer_cast<Rp4SwitchTableStmt>(entry.value)->name;
+            auto name =
+                std::static_pointer_cast<Rp4SwitchTableStmt>(entry.value)->name;
             return std::make_shared<IpsaGatewayTableEntry>(
-                table_manager->lookup(name)->table_id
-            );
+                table_manager->lookup(name)->table_id);
         } else {
             auto x = std::static_pointer_cast<Rp4SwitchStageStmt>(entry.value);
             if (x->to_none) {
                 return std::make_shared<IpsaGatewayStageEntry>(-1);
             } else {
                 return std::make_shared<IpsaGatewayStageEntry>(
-                    stage_manager->lookup(x->name)->stage_id
-                );
+                    stage_manager->lookup(x->name)->stage_id);
             }
         }
     };
@@ -46,16 +49,13 @@ void IpsaGatewayManager::load() {
             if (entry.key->isDefault()) {
                 gateway.next_table.default_entry = make_gateway_entry(entry);
             } else {
-                gateway.next_table.entries.push_back(
-                    IpsaNextTableEntry(
-                        entry.key->get_key(),
-                        make_gateway_entry(entry)
-                    )
-                );
+                gateway.next_table.entries.push_back(IpsaNextTableEntry(
+                    entry.key->get_key(), make_gateway_entry(entry)));
             }
         }
         if (gateway.next_table.default_entry.get() == nullptr) {
-            gateway.next_table.default_entry = gateway.next_table.entries[0].value;
+            gateway.next_table.default_entry =
+                gateway.next_table.entries[0].value;
         }
         gateways.push_back(std::move(gateway));
         stage.gateway_id = global_gateway_id++;

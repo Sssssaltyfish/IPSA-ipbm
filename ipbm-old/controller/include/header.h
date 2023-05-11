@@ -6,8 +6,8 @@
 #define GRPC_TEST_HEADER_H
 
 #include <iostream>
-#include <vector>
 #include <utility>
+#include <vector>
 
 #include "field.h"
 #include "next_header.h"
@@ -23,8 +23,8 @@ public:
     void setHeaderId(uint32_t headerId);
     int32_t getHeaderLength() const;
     void setHeaderLength(int32_t headerLength);
-    const std::string &getHeaderName() const;
-    void setHeaderName(const std::string &headerName);
+    const std::string& getHeaderName() const;
+    void setHeaderName(const std::string& headerName);
 
 private:
     uint32_t header_id;
@@ -34,4 +34,4 @@ private:
     std::vector<NextHeader> next_headers;
 };
 
-#endif //GRPC_TEST_HEADER_H
+#endif // GRPC_TEST_HEADER_H

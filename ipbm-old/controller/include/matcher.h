@@ -22,15 +22,15 @@ struct MatchField {
     std::string field_name;
     MatchType matchType;
     int field_length;
-//    MatchFieldNode *next = nullptr;
+    //    MatchFieldNode *next = nullptr;
 };
 
-//struct MatchFieldName {
-//    char header_name[255];
-//    char field_name[255];
-//    MatchType matchType;
-//    MatchFieldName *next = nullptr;
-//};
+// struct MatchFieldName {
+//     char header_name[255];
+//     char field_name[255];
+//     MatchType matchType;
+//     MatchFieldName *next = nullptr;
+// };
 
 struct Matcher {
     uint32_t matcher_id;
@@ -45,22 +45,22 @@ struct Matcher {
 
 class MatcherConfig {
 public:
-    MatcherConfig() : cur_matcher_id(0) {};
+    MatcherConfig() : cur_matcher_id(0){};
     void setMatcherMap(std::unordered_map<int, Matcher*> matcherMap);
-//    void addMatcher(MatchFieldNode* match_field, Matcher* matcher,
-//                            Parser* parser, MemConfig * mem_handler);
+    //    void addMatcher(MatchFieldNode* match_field, Matcher* matcher,
+    //                            Parser* parser, MemConfig * mem_handler);
 
-    int initFromJson(const std::string &json_filename, Parser *parser,
-                      MemConfig *mem_config, Processor* processor);
+    int initFromJson(const std::string& json_filename, Parser* parser,
+                     MemConfig* mem_config, Processor* processor);
 
     std::string getMemTypeName(MemType mem_type);
     std::string getMatchTypeName(MatchType mem_type);
 
     int getProcessorIdByFlowTableName(const std::string& flow_table_name);
 
-    void addMatcherAtRuntime(const std::string& processor_name, Matcher *matcher,
-                             Parser *parser,
-                             MemConfig *mem_config, Processor* processor);
+    void addMatcherAtRuntime(const std::string& processor_name,
+                             Matcher* matcher, Parser* parser,
+                             MemConfig* mem_config, Processor* processor);
 
     void printMatcher();
 
@@ -69,22 +69,25 @@ private:
     int cur_matcher_id;
 };
 
-void MatcherConfig::setMatcherMap(std::unordered_map<int, Matcher *> matcherMap) {
+void MatcherConfig::setMatcherMap(
+    std::unordered_map<int, Matcher*> matcherMap) {
     this->matcher_map = std::move(matcherMap);
 }
 
-int MatcherConfig::getProcessorIdByFlowTableName(const std::string& flow_table_name) {
-    for(auto it : matcher_map) {
-        if(it.second->flow_table_name == flow_table_name) {
+int MatcherConfig::getProcessorIdByFlowTableName(
+    const std::string& flow_table_name) {
+    for (auto it : matcher_map) {
+        if (it.second->flow_table_name == flow_table_name) {
             return it.second->resided_processor_id;
         }
     }
     return 0;
 }
 
-void MatcherConfig::addMatcherAtRuntime(const std::string& processor_name, Matcher *matcher,
-                                        Parser *parser,
-                                        MemConfig *mem_config, Processor* processor) {
+void MatcherConfig::addMatcherAtRuntime(const std::string& processor_name,
+                                        Matcher* matcher, Parser* parser,
+                                        MemConfig* mem_config,
+                                        Processor* processor) {
     int proc_id = processor->allocMatcherToProcessor(processor_name);
     matcher->matcher_id = proc_id;
     matcher->resided_processor_id = proc_id;
@@ -92,8 +95,9 @@ void MatcherConfig::addMatcherAtRuntime(const std::string& processor_name, Match
     this->matcher_map.insert(std::make_pair(matcher->matcher_id, matcher));
 }
 
-int MatcherConfig::initFromJson(const std::string &json_filename, Parser *parser,
-                                 MemConfig *mem_config, Processor* processor) {
+int MatcherConfig::initFromJson(const std::string& json_filename,
+                                Parser* parser, MemConfig* mem_config,
+                                Processor* processor) {
     FILE* fp = fopen(json_filename.c_str(), "rb");
     char readBufer[65536];
     rapidjson::FileReadStream is(fp, readBufer, sizeof(readBufer));
@@ -102,13 +106,14 @@ int MatcherConfig::initFromJson(const std::string &json_filename, Parser *parser
     d.ParseStream(is);
     fclose(fp);
 
-    for(auto it = d.MemberBegin(); it != d.MemberEnd(); ++it) {
+    for (auto it = d.MemberBegin(); it != d.MemberEnd(); ++it) {
         std::string processor_name = it->name.GetString();
         int proc_id = processor->allocMatcherToProcessor(processor_name);
 
         auto matcher = new Matcher();
         matcher->matcher_id = proc_id;
-        matcher->resided_processor_id = proc_id; // TODO: add cal processor id function? done!
+        matcher->resided_processor_id =
+            proc_id; // TODO: add cal processor id function? done!
 
         std::string flow_table_name = it->value["table_name"].GetString();
         int flow_table_id = mem_config->getFlowTableIdByName(flow_table_name);
@@ -117,8 +122,9 @@ int MatcherConfig::initFromJson(const std::string &json_filename, Parser *parser
 
         auto field_array = it->value["fields"].GetArray();
         int size = field_array.Size();
-        for(int i = 0; i < size; i++) {
-            std::string s_header_name = field_array[i]["header_name"].GetString();
+        for (int i = 0; i < size; i++) {
+            std::string s_header_name =
+                field_array[i]["header_name"].GetString();
             std::string s_field_name = field_array[i]["field_name"].GetString();
             std::string s_match_type = field_array[i]["match_type"].GetString();
 
@@ -141,16 +147,18 @@ int MatcherConfig::initFromJson(const std::string &json_filename, Parser *parser
     return 0;
 }
 
-//void MatcherConfig::addMatcher(MatchFieldNode* match_field, Matcher *matcher,
-//                               Parser* parser, MemConfig * mem_handler) {
+// void MatcherConfig::addMatcher(MatchFieldNode* match_field, Matcher *matcher,
+//                                Parser* parser, MemConfig * mem_handler) {
 ////    parser->printHeaderNameIDMap();
 //    matcher->matcher_id = cur_matcher_id++;
-//    matcher->resided_processor_id = 0; // TODO: add processor class and function
-//    matcher->flow_table_id = mem_handler->getFlowTableIdByName(matcher->flow_table_name);
+//    matcher->resided_processor_id = 0; // TODO: add processor class and
+//    function matcher->flow_table_id =
+//    mem_handler->getFlowTableIdByName(matcher->flow_table_name);
 //    MatchFieldNode * cur;
 //    cur = match_field->next;
 //    while(cur) {
-////        std::cout << cur->header_name << " : " << cur->field_name << std::endl;
+////        std::cout << cur->header_name << " : " << cur->field_name <<
+///std::endl;
 //        cur->header_id = parser->getHeaderIdByName(cur->header_name);
 //        cur->field_id = parser->getFieldIdByName(cur->field_name);
 //        cur = cur->next;
@@ -162,42 +170,45 @@ int MatcherConfig::initFromJson(const std::string &json_filename, Parser *parser
 
 void MatcherConfig::printMatcher() {
     std::cout << "*********** Matcher ************" << std::endl;
-    for(auto it : matcher_map) {
+    for (auto it : matcher_map) {
         auto matcher = it.second;
         std::cout << "Matcher ID: " << it.first << std::endl;
-        std::cout << "\tFlow_table_name: " << matcher->flow_table_name << std::endl;
+        std::cout << "\tFlow_table_name: " << matcher->flow_table_name
+                  << std::endl;
         std::cout << "\tFlow_table_id: " << matcher->flow_table_id << std::endl;
-        std::cout << "\tResided_processor_id: " << matcher->resided_processor_id << std::endl;
+        std::cout << "\tResided_processor_id: " << matcher->resided_processor_id
+                  << std::endl;
         std::cout << "\tFields: " << std::endl;
 
         auto match_fields = matcher->match_fields;
-        for(int i = 0; i < match_fields.size(); i++) {
-            std::cout << "\t\t" << match_fields[i]->header_name << "." ;
-            std::cout << match_fields[i]->field_name << " : " ;
-            std::cout << this->getMatchTypeName(match_fields[i]->matchType) << std::endl ;
+        for (int i = 0; i < match_fields.size(); i++) {
+            std::cout << "\t\t" << match_fields[i]->header_name << ".";
+            std::cout << match_fields[i]->field_name << " : ";
+            std::cout << this->getMatchTypeName(match_fields[i]->matchType)
+                      << std::endl;
         }
     }
 }
 
 std::string MatcherConfig::getMemTypeName(MemType mem_type) {
-    if(mem_type == MemType::MEM_SRAM) {
+    if (mem_type == MemType::MEM_SRAM) {
         return "SRAM";
     } else {
-      return "TCAM";
+        return "TCAM";
     }
 }
 
 std::string MatcherConfig::getMatchTypeName(MatchType match_type) {
-    if(match_type == MatchType::EXACT) {
+    if (match_type == MatchType::EXACT) {
         return "exact";
-    } else if(match_type == MatchType::TERNARY) {
+    } else if (match_type == MatchType::TERNARY) {
         return "ternary";
-    } else if(match_type == MatchType::LPM) {
+    } else if (match_type == MatchType::LPM) {
         return "lpm";
-    } else if(match_type == MatchType::RANGE) {
+    } else if (match_type == MatchType::RANGE) {
         return "range";
     }
     return "";
 }
 
-#endif //GRPC_TEST_MATCHER_H
+#endif // GRPC_TEST_MATCHER_H

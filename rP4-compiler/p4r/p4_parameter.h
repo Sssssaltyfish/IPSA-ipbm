@@ -1,12 +1,11 @@
 #pragma once
 
-#include <vector>
-#include <set>
-#include <string>
+#include "p4_field.h"
 #include <algorithm>
 #include <iostream>
 #include <set>
-#include "p4_field.h"
+#include <string>
+#include <vector>
 
 class P4RuntimeData {
 public:
@@ -32,12 +31,16 @@ public:
     P4Field field_value;
     P4Expression* expression_value;
 
-    std::ostream& output(std::ostream& out, const std::vector<P4RuntimeData>* runtime_data) const;
+    std::ostream& output(std::ostream& out,
+                         const std::vector<P4RuntimeData>* runtime_data) const;
     void add_to_hdr_names_set(std::set<std::string>& dst) const;
-    std::tuple<std::vector<const P4Parameter*>, std::vector<std::string>> parse() const;
+    std::tuple<std::vector<const P4Parameter*>, std::vector<std::string>>
+    parse() const;
 };
 
-std::ostream & P4Parameter::output(std::ostream & out, const std::vector<P4RuntimeData>* runtime_data = nullptr) const {
+std::ostream& P4Parameter::output(
+    std::ostream& out,
+    const std::vector<P4RuntimeData>* runtime_data = nullptr) const {
     if (type == "field") {
         out << field_value;
     } else if (type == "runtime_data") {
@@ -51,7 +54,7 @@ std::ostream & P4Parameter::output(std::ostream & out, const std::vector<P4Runti
     } else if (type == "header") {
         out << header_value;
     } else if (type == "expression") {
-        if (auto & exp = expression_value; exp != nullptr) {
+        if (auto& exp = expression_value; exp != nullptr) {
             if (exp->op != "b2d") {
                 out << "(";
                 if (exp->left != nullptr) {
@@ -85,12 +88,13 @@ void P4Parameter::add_to_hdr_names_set(std::set<std::string>& dst) const {
     }
 }
 
-std::tuple<std::vector<const P4Parameter*>, std::vector<std::string>> P4Parameter::parse() const {
+std::tuple<std::vector<const P4Parameter*>, std::vector<std::string>>
+P4Parameter::parse() const {
     if (type == "expression" && expression_value != nullptr) {
         if (expression_value->op == "d2b") {
             return expression_value->right->parse();
         }
-        auto not_apply = [](const std::vector<std::string> & v) {
+        auto not_apply = [](const std::vector<std::string>& v) {
             auto vs = v[0].size();
             std::vector<std::string> ans;
             std::string temp(vs, '1');
@@ -105,7 +109,7 @@ std::tuple<std::vector<const P4Parameter*>, std::vector<std::string>> P4Paramete
                     }
                 }
             };
-            for (auto & s : v) {
+            for (auto& s : v) {
                 for (inc_temp(); s != temp; inc_temp()) {
                     ans.push_back(temp);
                 }
@@ -115,7 +119,8 @@ std::tuple<std::vector<const P4Parameter*>, std::vector<std::string>> P4Paramete
             }
             return ans;
         };
-        auto and_apply = [](const std::vector<std::string> & v1, const std::vector<std::string> & v2) {
+        auto and_apply = [](const std::vector<std::string>& v1,
+                            const std::vector<std::string>& v2) {
             std::vector<std::string> ans;
             for (auto i1 = std::begin(v1); i1 != std::end(v1); i1++) {
                 for (auto i2 = std::begin(v2); i2 != std::end(v2); i2++) {
@@ -124,20 +129,22 @@ std::tuple<std::vector<const P4Parameter*>, std::vector<std::string>> P4Paramete
             }
             return ans;
         };
-        auto or_apply = [&](const std::vector<std::string> & v1, const std::vector<std::string> & v2) {
+        auto or_apply = [&](const std::vector<std::string>& v1,
+                            const std::vector<std::string>& v2) {
             std::vector<std::string> ans;
             auto a1 = and_apply(v1, not_apply(v2));
             auto a2 = and_apply(not_apply(v1), v2);
             auto a3 = and_apply(v1, v2);
-            for (auto & a : {a1, a2, a3}) {
+            for (auto& a : {a1, a2, a3}) {
                 ans.insert(std::end(ans), std::begin(a), std::end(a));
             }
             std::sort(std::begin(ans), std::end(ans));
             return ans;
         };
-        auto concat_apply = [](const std::vector<const P4Parameter*> & v1, const std::vector<const P4Parameter*> & v2) {
+        auto concat_apply = [](const std::vector<const P4Parameter*>& v1,
+                               const std::vector<const P4Parameter*>& v2) {
             std::vector<const P4Parameter*> ans;
-            for (auto & v : {v1, v2}) {
+            for (auto& v : {v1, v2}) {
                 ans.insert(std::end(ans), std::begin(v), std::end(v));
             }
             return ans;
@@ -158,5 +165,6 @@ std::tuple<std::vector<const P4Parameter*>, std::vector<std::string>> P4Paramete
         }
     }
     /* else if (type == "field") or other expressions */
-    return std::tuple(std::vector<const P4Parameter*> { this }, std::vector<std::string> { "1" });        
+    return std::tuple(std::vector<const P4Parameter*>{this},
+                      std::vector<std::string>{"1"});
 }
