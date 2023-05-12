@@ -8,6 +8,8 @@
 #include "ipsa_processor_manager.h"
 #include "ipsa_table_manager.h"
 
+#include "fmt/ranges.h"
+
 class IpsaParser : public IpsaModule {
 public:
     int parser_level = 0;
@@ -214,7 +216,7 @@ inline void IpsaBuilder::allocateProcessors() {
     }
 }
 
-bool IpsaBuilder::allocateMemory(const IpsaBuilder& prev) {
+inline bool IpsaBuilder::allocateMemory(const IpsaBuilder& prev) {
     memory.calculateTableSpace();
     std::map<int, const IpsaTable*> table_map;
     // diff the table list
@@ -318,7 +320,7 @@ bool IpsaBuilder::allocateMemory(const IpsaBuilder& prev) {
             {std::vector<bool>(ipsa_configuration::CLUSTER_TCAM_COUNT, false),
              std::vector<bool>(ipsa_configuration::CLUSTER_SRAM_COUNT, false)});
     }
-    // existing tables
+   // existing tables
     for (auto& [name, table] : table_manager.tables) {
         auto prev_table = table_map[table.table_id];
         auto& now_cluster = cluster_bitmap[proc_cluster[table.proc_id]];

@@ -12,6 +12,7 @@ SOURCE   = ${SOURCE_DIR}/rp4c.cpp
 CMP_SRC  = ${SOURCE_DIR}/rp4_compiler.cpp
 LEX_SRC  = ${SOURCE_DIR}/lex.l
 YACC_SRC = ${SOURCE_DIR}/yacc.y
+FMT      = ./fmt/format.cc
 
 TARGET   = ${BUILD_DIR}/rp4c
 OBJECT   = ${BUILD_DIR}/rp4c.o
@@ -24,9 +25,9 @@ YACC_CPP = ${BUILD_DIR}/yacc.cpp
 
 all: check_build target
 
-target: ${YACC_OBJ} ${LEX_OBJ} ${CMP_OBJ} ${OBJECT}
-	${CC} ${CFLAGS} ${LEX_OBJ} ${YACC_OBJ} ${OBJECT} -o ${TARGET}
-	${CC} ${CFLAGS} ${LEX_OBJ} ${YACC_OBJ} ${CMP_OBJ} -o ${CMP_TGT}
+target: ${YACC_OBJ} ${LEX_OBJ} ${CMP_OBJ} ${OBJECT} ${FMT}
+	${CC} ${CFLAGS} ${FMT} ${LEX_OBJ} ${YACC_OBJ} ${OBJECT} -o ${TARGET}
+	${CC} ${CFLAGS} ${FMT} ${LEX_OBJ} ${YACC_OBJ} ${CMP_OBJ} -o ${CMP_TGT}
 
 ${YACC_OBJ}: ${YACC_SRC} ${H_RP4}
 	${YACC} -d ${YACC_SRC} -o ${YACC_CPP}
@@ -43,7 +44,7 @@ ${OBJECT}: ${SOURCE} ${H_IPSA} ${H_RP4}
 	${CC} ${CFLAGS} -c ${SOURCE} -o $@
 
 check_build:
-	if [ ! -d ${BUILD_DIR} ]; then  mkdir ${BUILD_DIR}; fi
+	if [ ! -d ${BUILD_DIR} ]; then mkdir ${BUILD_DIR}; fi
 	cd ${BUILD_DIR}
 
 clean:
