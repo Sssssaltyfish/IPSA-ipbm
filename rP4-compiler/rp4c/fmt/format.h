@@ -4580,9 +4580,7 @@ public:
 };
 
 // group_digits_view is not derived from view because it copies the argument.
-template <typename T> struct group_digits_view {
-    T value;
-};
+template <typename T> struct group_digits_view { T value; };
 
 /**
   \rst

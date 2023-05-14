@@ -5680,9 +5680,10 @@ template <typename BasicJsonType> std::size_t hash(const BasicJsonType& j) {
         return seed;
     }
 
-    default:                // LCOV_EXCL_LINE
-        JSON_ASSERT(false); // NOLINT(cert-dcl03-c,hicpp-static-assert,misc-static-assert)
-                            // LCOV_EXCL_LINE
+    default: // LCOV_EXCL_LINE
+        JSON_ASSERT(
+            false); // NOLINT(cert-dcl03-c,hicpp-static-assert,misc-static-assert)
+                    // LCOV_EXCL_LINE
         return 0; // LCOV_EXCL_LINE
     }
 }
@@ -7775,9 +7776,10 @@ private:
         }
 
         // all other characters are rejected outside scan_number()
-        default:                // LCOV_EXCL_LINE
-            JSON_ASSERT(false); // NOLINT(cert-dcl03-c,hicpp-static-assert,misc-static-assert)
-                                // LCOV_EXCL_LINE
+        default: // LCOV_EXCL_LINE
+            JSON_ASSERT(
+                false); // NOLINT(cert-dcl03-c,hicpp-static-assert,misc-static-assert)
+                        // LCOV_EXCL_LINE
         }
 
     scan_number_minus:
@@ -8597,8 +8599,9 @@ public:
 
         case input_format_t::json: // LCOV_EXCL_LINE
         default:                   // LCOV_EXCL_LINE
-            JSON_ASSERT(false); // NOLINT(cert-dcl03-c,hicpp-static-assert,misc-static-assert)
-                                // LCOV_EXCL_LINE
+            JSON_ASSERT(
+                false); // NOLINT(cert-dcl03-c,hicpp-static-assert,misc-static-assert)
+                        // LCOV_EXCL_LINE
         }
 
         // strict mode: next byte must be EOF
@@ -9325,8 +9328,9 @@ private:
             }
 
             default: // LCOV_EXCL_LINE
-                JSON_ASSERT(false); // NOLINT(cert-dcl03-c,hicpp-static-assert,misc-static-assert)
-                                    // LCOV_EXCL_LINE
+                JSON_ASSERT(
+                    false); // NOLINT(cert-dcl03-c,hicpp-static-assert,misc-static-assert)
+                            // LCOV_EXCL_LINE
                 return false; // LCOV_EXCL_LINE
             }
         }
@@ -10458,8 +10462,9 @@ private:
                     !get_number(input_format_t::ubjson, number))) {
                 return false;
             }
-            result = static_cast<std::size_t>(number); // NOLINT(bugprone-signed-char-misuse,cert-str34-c):
-                                                       // number is not a char
+            result = static_cast<std::size_t>(
+                number); // NOLINT(bugprone-signed-char-misuse,cert-str34-c):
+                         // number is not a char
             return true;
         }
 
@@ -11051,8 +11056,9 @@ private:
 
         case input_format_t::json: // LCOV_EXCL_LINE
         default:                   // LCOV_EXCL_LINE
-            JSON_ASSERT(false); // NOLINT(cert-dcl03-c,hicpp-static-assert,misc-static-assert)
-                                // LCOV_EXCL_LINE
+            JSON_ASSERT(
+                false); // NOLINT(cert-dcl03-c,hicpp-static-assert,misc-static-assert)
+                        // LCOV_EXCL_LINE
         }
 
         return error_msg + " " + context + ": " + detail;
@@ -16334,9 +16340,10 @@ public:
             return;
         }
 
-        default:                // LCOV_EXCL_LINE
-            JSON_ASSERT(false); // NOLINT(cert-dcl03-c,hicpp-static-assert,misc-static-assert)
-                                // LCOV_EXCL_LINE
+        default: // LCOV_EXCL_LINE
+            JSON_ASSERT(
+                false); // NOLINT(cert-dcl03-c,hicpp-static-assert,misc-static-assert)
+                        // LCOV_EXCL_LINE
         }
     }
 
@@ -16528,8 +16535,9 @@ public:
                 }
 
                 default: // LCOV_EXCL_LINE
-                    JSON_ASSERT(false); // NOLINT(cert-dcl03-c,hicpp-static-assert,misc-static-assert)
-                                        // LCOV_EXCL_LINE
+                    JSON_ASSERT(
+                        false); // NOLINT(cert-dcl03-c,hicpp-static-assert,misc-static-assert)
+                                // LCOV_EXCL_LINE
                 }
                 break;
             }
@@ -16584,8 +16592,9 @@ public:
             }
 
             default: // LCOV_EXCL_LINE
-                JSON_ASSERT(false); // NOLINT(cert-dcl03-c,hicpp-static-assert,misc-static-assert)
-                                    // LCOV_EXCL_LINE
+                JSON_ASSERT(
+                    false); // NOLINT(cert-dcl03-c,hicpp-static-assert,misc-static-assert)
+                            // LCOV_EXCL_LINE
             }
         }
     }
@@ -16922,8 +16931,9 @@ private:
      * Must never be called.
      */
     number_unsigned_t remove_sign(number_unsigned_t x) {
-        JSON_ASSERT(false); // NOLINT(cert-dcl03-c,hicpp-static-assert,misc-static-assert)
-                            // LCOV_EXCL_LINE
+        JSON_ASSERT(
+            false); // NOLINT(cert-dcl03-c,hicpp-static-assert,misc-static-assert)
+                    // LCOV_EXCL_LINE
         return x; // LCOV_EXCL_LINE
     }
 
@@ -17954,9 +17964,10 @@ public:
         case value_t::discarded:
             m_type = value_t::discarded;
             break;
-        default:                // LCOV_EXCL_LINE
-            JSON_ASSERT(false); // NOLINT(cert-dcl03-c,hicpp-static-assert,misc-static-assert)
-                                // LCOV_EXCL_LINE
+        default: // LCOV_EXCL_LINE
+            JSON_ASSERT(
+                false); // NOLINT(cert-dcl03-c,hicpp-static-assert,misc-static-assert)
+                        // LCOV_EXCL_LINE
         }
         set_parents();
         assert_invariant();
@@ -21246,8 +21257,9 @@ public:
             case value_t::binary:          // LCOV_EXCL_LINE
             case value_t::discarded:       // LCOV_EXCL_LINE
             default:                       // LCOV_EXCL_LINE
-                JSON_ASSERT(false); // NOLINT(cert-dcl03-c,hicpp-static-assert,misc-static-assert)
-                                    // LCOV_EXCL_LINE
+                JSON_ASSERT(
+                    false); // NOLINT(cert-dcl03-c,hicpp-static-assert,misc-static-assert)
+                            // LCOV_EXCL_LINE
             }
         };
 

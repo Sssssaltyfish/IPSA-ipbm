@@ -655,7 +655,7 @@ private:
 //                action_paras)) + get_value(get_op_val_any(params[2], phv,
 //                action_paras));
 ////                uint32_t res = get_op_val(params[1], phv, action_paras) +
-///get_op_val(params[2], phv, action_paras);
+/// get_op_val(params[2], phv, action_paras);
 //                modify_field_with_uint(params[0], res, phv);
 //                break;
 //            }
@@ -668,26 +668,26 @@ private:
 //            }
 ////            case OpCode::SHIFT_LEFT: {
 ////                uint32_t res = get_op_val(params[1], phv, action_paras) <<
-///get_op_val(params[2], phv, action_paras); / modify_field(params[0], res,
-///phv); /                break; /            } /            case
-///OpCode::SHIFT_RIGHT: { /                uint32_t res = get_op_val(params[1],
-///phv, action_paras) >> get_op_val(params[2], phv, action_paras); /
-///modify_field(params[0], res, phv); /                break; /            } //
-///BIT_AND, BIT_OR, BIT_XOR, BIT_NEG, /            case OpCode::BIT_AND : { /
-///uint32_t res = get_op_val(params[1], phv, action_paras) &
-///get_op_val(params[2], phv, action_paras); / modify_field(params[0], res,
-///phv); /                break; /            }
+/// get_op_val(params[2], phv, action_paras); / modify_field(params[0], res,
+/// phv); /                break; /            } /            case
+/// OpCode::SHIFT_RIGHT: { /                uint32_t res = get_op_val(params[1],
+/// phv, action_paras) >> get_op_val(params[2], phv, action_paras); /
+/// modify_field(params[0], res, phv); /                break; /            } //
+/// BIT_AND, BIT_OR, BIT_XOR, BIT_NEG, /            case OpCode::BIT_AND : { /
+/// uint32_t res = get_op_val(params[1], phv, action_paras) &
+/// get_op_val(params[2], phv, action_paras); / modify_field(params[0], res,
+/// phv); /                break; /            }
 ////
 ////            case OpCode::BIT_OR : {
 ////                uint32_t res = get_op_val(params[1], phv, action_paras) |
-///get_op_val(params[2], phv, action_paras); / modify_field(params[0], res,
-///phv); /                break; /            } /            case
-///OpCode::BIT_XOR : { /                uint32_t res = get_op_val(params[1],
-///phv, action_paras) ^ get_op_val(params[2], phv, action_paras); /
-///modify_field(params[0], res, phv); /                break; /            } /
-///case OpCode::BIT_NEG : { /                uint32_t res =
+/// get_op_val(params[2], phv, action_paras); / modify_field(params[0], res,
+/// phv); /                break; /            } /            case
+/// OpCode::BIT_XOR : { /                uint32_t res = get_op_val(params[1],
+/// phv, action_paras) ^ get_op_val(params[2], phv, action_paras); /
+/// modify_field(params[0], res, phv); /                break; /            } /
+/// case OpCode::BIT_NEG : { /                uint32_t res =
 ///~get_op_val(params[1], phv, action_paras); / modify_field(params[0], res,
-///phv); /                break; /            }
+/// phv); /                break; /            }
 //            case OpCode::SET_FIELD : { // can be larger than 32
 //                Data res = get_op_val_any(params[1], phv, action_paras);
 //                modify_field_with_data(params[0], res, phv);

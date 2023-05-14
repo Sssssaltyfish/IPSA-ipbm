@@ -5,6 +5,9 @@
 #include <string>
 #include <vector>
 
+#include "fmt/format.h"
+#include "fmt/ranges.h"
+
 class IpsaValue {
 public:
     virtual bool isInteger() const { return false; }
@@ -47,20 +50,27 @@ public:
     auto& getValue() const { return value; }
 };
 
-std::shared_ptr<IpsaValue> makeValue(int _value) {
+inline std::shared_ptr<IpsaValue> makeValue(int _value) {
     return std::make_shared<IpsaInteger>(_value);
 }
 
-std::shared_ptr<IpsaValue> makeValue(std::string _value) {
+inline std::shared_ptr<IpsaValue> makeValue(std::string _value) {
     return std::make_shared<IpsaString>(_value);
 }
 
-std::shared_ptr<IpsaValue>
+inline std::shared_ptr<IpsaValue>
 makeValue(std::vector<std::shared_ptr<IpsaValue>> _value) {
     return std::make_shared<IpsaList>(_value);
 }
 
-std::shared_ptr<IpsaValue>
+inline std::shared_ptr<IpsaValue>
 makeValue(std::map<std::string, std::shared_ptr<IpsaValue>> _value) {
     return std::make_shared<IpsaDict>(_value);
 }
+
+#define DBG(x)                                                                 \
+    {                                                                          \
+        auto&& val = (x);                                                      \
+        fmt::println("Value of `{}` at file {} line {} is `{}`", #x, __FILE__, \
+                     __LINE__, val);                                           \
+    }

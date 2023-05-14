@@ -31,7 +31,7 @@
 //
 //     Sram () {
 ////        tbl = (uint8_t *)malloc(sizeof(uint8_t)* (PHYSICAL_SRAM_CAPACITY /
-///8));
+/// 8));
 //        memset(tbl,0, sizeof(uint8_t)* (PHYSICAL_SRAM_CAPACITY / 8));
 //    }
 //

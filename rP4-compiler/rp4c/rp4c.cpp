@@ -13,6 +13,14 @@ int main(int argc, char** argv) {
     while (true) {
         std::cout << ">>> " << std::flush;
         std::getline(std::cin, line);
+
+        if (!std::cin || std::cin.eof()) {
+            return 0;
+        }
+        if (line.empty()) {
+            continue;
+        }
+
         std::vector<std::string> params;
         std::istringstream is(line);
         while (std::getline(is, temp, ' ')) {

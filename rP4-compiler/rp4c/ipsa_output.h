@@ -1,26 +1,50 @@
 #pragma once
 
-#include "ipsa_value.h"
 #include <iostream>
+
+#include "ipsa_value.h"
+
+#include "fmt/format.h"
+#include "fmt/ostream.h"
 
 class IpsaOutput {
 public:
     int tab;
     std::ostream& out;
     IpsaOutput(std::ostream& _out) : tab(0), out(_out) {}
+    std::ostream& emit(const IpsaValue* value);
     std::ostream& emit(std::shared_ptr<IpsaValue> value);
 };
 
-std::ostream& IpsaOutput::emit(std::shared_ptr<IpsaValue> value) {
-    if (value.get() == nullptr) {
+template <> struct fmt::formatter<IpsaValue> : fmt::ostream_formatter {};
+template <>
+struct fmt::formatter<std::shared_ptr<IpsaValue>> : fmt::ostream_formatter {};
+
+inline std::ostream& operator<<(std::ostream& os,
+                                const std::shared_ptr<IpsaValue>& value) {
+    auto out = IpsaOutput{os};
+    return out.emit(value);
+}
+
+inline std::ostream& operator<<(std::ostream& os, const IpsaValue* value) {
+    auto out = IpsaOutput{os};
+    return out.emit(value);
+}
+
+inline std::ostream& IpsaOutput::emit(std::shared_ptr<IpsaValue> value) {
+    return this->emit(value.get());
+}
+
+inline std::ostream& IpsaOutput::emit(const IpsaValue* value) {
+    if (value == nullptr) {
         out << "null";
     } else if (value->isInteger()) {
-        out << std::static_pointer_cast<IpsaInteger>(value)->getValue();
+        out << static_cast<const IpsaInteger*>(value)->getValue();
     } else if (value->isString()) {
-        out << "\"" << std::static_pointer_cast<IpsaString>(value)->getValue()
+        out << "\"" << static_cast<const IpsaString*>(value)->getValue()
             << "\"";
     } else if (value->isList()) {
-        auto& l = std::static_pointer_cast<IpsaList>(value)->getValue();
+        auto& l = static_cast<const IpsaList*>(value)->getValue();
         if (l.size() == 0) {
             out << "[]";
         } else {
@@ -39,7 +63,7 @@ std::ostream& IpsaOutput::emit(std::shared_ptr<IpsaValue> value) {
             out << std::string(tab, ' ') << "]";
         }
     } else if (value->isDict()) {
-        auto& d = std::static_pointer_cast<IpsaDict>(value)->getValue();
+        auto& d = static_cast<const IpsaDict*>(value)->getValue();
         if (d.size() == 0) {
             out << "{}";
         } else {

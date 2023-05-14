@@ -76,7 +76,7 @@ public:
         //                    matcher->mts[phv->next_op.val]->hit_act_id;
         //                    exe->execute(phv);
         //// exe->execute_action(matcher->mts[phv->next_op.val]->hit_act_id,
-        ///phv);
+        /// phv);
         //                } else {
         //                    exe->execute_action(matcher->mts[phv->next_op.val]->miss_act_id,
         //                    phv);
@@ -92,7 +92,7 @@ public:
         //        if(phv->hit) {
         //            exe->execute(phv);
         ////            phv->next_proc_id =
-        ///matcher->mts[phv->next_matcher_id]->action_proc_map[phv->next_action_id];
+        /// matcher->mts[phv->next_matcher_id]->action_proc_map[phv->next_action_id];
         //        } else {
         //            // = 0, goto hit miss; = 1, real action
         //            switch(matcher->miss_act_bitmap[phv->next_matcher_id]) {
@@ -108,7 +108,7 @@ public:
         //                    break;
         //            }
         ////            phv->next_proc_id =
-        ///matcher->mts[phv->next_matcher_id]->action_proc_map[phv->next_action_id];
+        /// matcher->mts[phv->next_matcher_id]->action_proc_map[phv->next_action_id];
         //        }
         //
         //        exe->execute(phv);

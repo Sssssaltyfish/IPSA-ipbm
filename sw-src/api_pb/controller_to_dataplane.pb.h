@@ -568,8 +568,10 @@ inline bool OpCode_Parse(::PROTOBUF_NAMESPACE_ID::ConstStringParam name,
 }
 // ===================================================================
 
-class HeaderInfo final : public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:rp4.HeaderInfo)
-                                                                  */
+class HeaderInfo final
+    : public ::PROTOBUF_NAMESPACE_ID::
+          Message /* @@protoc_insertion_point(class_definition:rp4.HeaderInfo)
+                   */
 {
 public:
     inline HeaderInfo() : HeaderInfo(nullptr) {}
@@ -745,8 +747,10 @@ private:
 };
 // -------------------------------------------------------------------
 
-class SetMetadataReq final : public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:rp4.SetMetadataReq)
-                                                                      */
+class SetMetadataReq final
+    : public ::PROTOBUF_NAMESPACE_ID::
+          Message /* @@protoc_insertion_point(class_definition:rp4.SetMetadataReq)
+                   */
 {
 public:
     inline SetMetadataReq() : SetMetadataReq(nullptr) {}
@@ -910,8 +914,10 @@ private:
 };
 // -------------------------------------------------------------------
 
-class SetMetadataResp final : public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:rp4.SetMetadataResp)
-                                                                       */
+class SetMetadataResp final
+    : public ::PROTOBUF_NAMESPACE_ID::
+          Message /* @@protoc_insertion_point(class_definition:rp4.SetMetadataResp)
+                   */
 {
 public:
     inline SetMetadataResp() : SetMetadataResp(nullptr) {}
@@ -1063,8 +1069,10 @@ private:
 };
 // -------------------------------------------------------------------
 
-class ClearStageReq final : public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:rp4.ClearStageReq)
-                                                                     */
+class ClearStageReq final
+    : public ::PROTOBUF_NAMESPACE_ID::
+          Message /* @@protoc_insertion_point(class_definition:rp4.ClearStageReq)
+                   */
 {
 public:
     inline ClearStageReq() : ClearStageReq(nullptr) {}
@@ -1216,8 +1224,10 @@ private:
 };
 // -------------------------------------------------------------------
 
-class ParserLevelReq final : public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:rp4.ParserLevelReq)
-                                                                      */
+class ParserLevelReq final
+    : public ::PROTOBUF_NAMESPACE_ID::
+          Message /* @@protoc_insertion_point(class_definition:rp4.ParserLevelReq)
+                   */
 {
 public:
     inline ParserLevelReq() : ParserLevelReq(nullptr) {}
@@ -1381,8 +1391,10 @@ private:
 };
 // -------------------------------------------------------------------
 
-class ParserLevelResp final : public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:rp4.ParserLevelResp)
-                                                                       */
+class ParserLevelResp final
+    : public ::PROTOBUF_NAMESPACE_ID::
+          Message /* @@protoc_insertion_point(class_definition:rp4.ParserLevelResp)
+                   */
 {
 public:
     inline ParserLevelResp() : ParserLevelResp(nullptr) {}
@@ -1534,8 +1546,10 @@ private:
 };
 // -------------------------------------------------------------------
 
-class FieldInfo final : public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:rp4.FieldInfo)
-                                                                 */
+class FieldInfo final
+    : public ::PROTOBUF_NAMESPACE_ID::
+          Message /* @@protoc_insertion_point(class_definition:rp4.FieldInfo)
+                   */
 {
 public:
     inline FieldInfo() : FieldInfo(nullptr) {}
@@ -1723,8 +1737,10 @@ private:
 };
 // -------------------------------------------------------------------
 
-class ModParserEntryReq final : public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:rp4.ModParserEntryReq)
-                                                                         */
+class ModParserEntryReq final
+    : public ::PROTOBUF_NAMESPACE_ID::
+          Message /* @@protoc_insertion_point(class_definition:rp4.ModParserEntryReq)
+                   */
 {
 public:
     inline ModParserEntryReq() : ModParserEntryReq(nullptr) {}
@@ -2010,8 +2026,10 @@ private:
 };
 // -------------------------------------------------------------------
 
-class ModParserEntryResp final : public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:rp4.ModParserEntryResp)
-                                                                          */
+class ModParserEntryResp final
+    : public ::PROTOBUF_NAMESPACE_ID::
+          Message /* @@protoc_insertion_point(class_definition:rp4.ModParserEntryResp)
+                   */
 {
 public:
     inline ModParserEntryResp() : ModParserEntryResp(nullptr) {}
@@ -2168,8 +2186,10 @@ private:
 };
 // -------------------------------------------------------------------
 
-class ClearParserReq final : public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:rp4.ClearParserReq)
-                                                                      */
+class ClearParserReq final
+    : public ::PROTOBUF_NAMESPACE_ID::
+          Message /* @@protoc_insertion_point(class_definition:rp4.ClearParserReq)
+                   */
 {
 public:
     inline ClearParserReq() : ClearParserReq(nullptr) {}
@@ -2321,8 +2341,10 @@ private:
 };
 // -------------------------------------------------------------------
 
-class ClearParserResp final : public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:rp4.ClearParserResp)
-                                                                       */
+class ClearParserResp final
+    : public ::PROTOBUF_NAMESPACE_ID::
+          Message /* @@protoc_insertion_point(class_definition:rp4.ClearParserResp)
+                   */
 {
 public:
     inline ClearParserResp() : ClearParserResp(nullptr) {}
@@ -2642,8 +2664,10 @@ private:
 };
 // -------------------------------------------------------------------
 
-class GateEntry final : public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:rp4.GateEntry)
-                                                                 */
+class GateEntry final
+    : public ::PROTOBUF_NAMESPACE_ID::
+          Message /* @@protoc_insertion_point(class_definition:rp4.GateEntry)
+                   */
 {
 public:
     inline GateEntry() : GateEntry(nullptr) {}
@@ -2808,8 +2832,9 @@ private:
 // -------------------------------------------------------------------
 
 class SetDefaultGateEntryReq final
-    : public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:rp4.SetDefaultGateEntryReq)
-                                               */
+    : public ::PROTOBUF_NAMESPACE_ID::
+          Message /* @@protoc_insertion_point(class_definition:rp4.SetDefaultGateEntryReq)
+                   */
 {
 public:
     inline SetDefaultGateEntryReq() : SetDefaultGateEntryReq(nullptr) {}
@@ -2994,8 +3019,9 @@ private:
 // -------------------------------------------------------------------
 
 class SetDefaultGateEntryResp final
-    : public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:rp4.SetDefaultGateEntryResp)
-                                               */
+    : public ::PROTOBUF_NAMESPACE_ID::
+          Message /* @@protoc_insertion_point(class_definition:rp4.SetDefaultGateEntryResp)
+                   */
 {
 public:
     inline SetDefaultGateEntryResp() : SetDefaultGateEntryResp(nullptr) {}
@@ -3155,8 +3181,10 @@ private:
 };
 // -------------------------------------------------------------------
 
-class GatewayParam final : public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:rp4.GatewayParam)
-                                                                    */
+class GatewayParam final
+    : public ::PROTOBUF_NAMESPACE_ID::
+          Message /* @@protoc_insertion_point(class_definition:rp4.GatewayParam)
+                   */
 {
 public:
     inline GatewayParam() : GatewayParam(nullptr) {}
@@ -3373,8 +3401,10 @@ private:
 };
 // -------------------------------------------------------------------
 
-class RelationExp final : public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:rp4.RelationExp)
-                                                                   */
+class RelationExp final
+    : public ::PROTOBUF_NAMESPACE_ID::
+          Message /* @@protoc_insertion_point(class_definition:rp4.RelationExp)
+                   */
 {
 public:
     inline RelationExp() : RelationExp(nullptr) {}
@@ -3572,8 +3602,10 @@ private:
 };
 // -------------------------------------------------------------------
 
-class InsertRelationExpReq final : public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:rp4.InsertRelationExpReq)
-                                                                            */
+class InsertRelationExpReq final
+    : public ::PROTOBUF_NAMESPACE_ID::
+          Message /* @@protoc_insertion_point(class_definition:rp4.InsertRelationExpReq)
+                   */
 {
 public:
     inline InsertRelationExpReq() : InsertRelationExpReq(nullptr) {}
@@ -3791,8 +3823,9 @@ private:
 // -------------------------------------------------------------------
 
 class InsertRelationExpResp final
-    : public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:rp4.InsertRelationExpResp)
-                                               */
+    : public ::PROTOBUF_NAMESPACE_ID::
+          Message /* @@protoc_insertion_point(class_definition:rp4.InsertRelationExpResp)
+                   */
 {
 public:
     inline InsertRelationExpResp() : InsertRelationExpResp(nullptr) {}
@@ -3951,8 +3984,10 @@ private:
 };
 // -------------------------------------------------------------------
 
-class ClearRelationExpReq final : public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:rp4.ClearRelationExpReq)
-                                                                           */
+class ClearRelationExpReq final
+    : public ::PROTOBUF_NAMESPACE_ID::
+          Message /* @@protoc_insertion_point(class_definition:rp4.ClearRelationExpReq)
+                   */
 {
 public:
     inline ClearRelationExpReq() : ClearRelationExpReq(nullptr) {}
@@ -4110,8 +4145,10 @@ private:
 };
 // -------------------------------------------------------------------
 
-class ClearRelationExpResp final : public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:rp4.ClearRelationExpResp)
-                                                                            */
+class ClearRelationExpResp final
+    : public ::PROTOBUF_NAMESPACE_ID::
+          Message /* @@protoc_insertion_point(class_definition:rp4.ClearRelationExpResp)
+                   */
 {
 public:
     inline ClearRelationExpResp() : ClearRelationExpResp(nullptr) {}
@@ -4270,8 +4307,10 @@ private:
 };
 // -------------------------------------------------------------------
 
-class ClearResMapReq final : public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:rp4.ClearResMapReq)
-                                                                      */
+class ClearResMapReq final
+    : public ::PROTOBUF_NAMESPACE_ID::
+          Message /* @@protoc_insertion_point(class_definition:rp4.ClearResMapReq)
+                   */
 {
 public:
     inline ClearResMapReq() : ClearResMapReq(nullptr) {}
@@ -4423,8 +4462,10 @@ private:
 };
 // -------------------------------------------------------------------
 
-class ClearResMapResp final : public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:rp4.ClearResMapResp)
-                                                                       */
+class ClearResMapResp final
+    : public ::PROTOBUF_NAMESPACE_ID::
+          Message /* @@protoc_insertion_point(class_definition:rp4.ClearResMapResp)
+                   */
 {
 public:
     inline ClearResMapResp() : ClearResMapResp(nullptr) {}
@@ -4576,8 +4617,10 @@ private:
 };
 // -------------------------------------------------------------------
 
-class ModResMapReq final : public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:rp4.ModResMapReq)
-                                                                    */
+class ModResMapReq final
+    : public ::PROTOBUF_NAMESPACE_ID::
+          Message /* @@protoc_insertion_point(class_definition:rp4.ModResMapReq)
+                   */
 {
 public:
     inline ModResMapReq() : ModResMapReq(nullptr) {}
@@ -4764,8 +4807,10 @@ private:
 };
 // -------------------------------------------------------------------
 
-class ModResMapResp final : public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:rp4.ModResMapResp)
-                                                                     */
+class ModResMapResp final
+    : public ::PROTOBUF_NAMESPACE_ID::
+          Message /* @@protoc_insertion_point(class_definition:rp4.ModResMapResp)
+                   */
 {
 public:
     inline ModResMapResp() : ModResMapResp(nullptr) {}
@@ -4917,8 +4962,10 @@ private:
 };
 // -------------------------------------------------------------------
 
-class SetNoTableReq final : public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:rp4.SetNoTableReq)
-                                                                     */
+class SetNoTableReq final
+    : public ::PROTOBUF_NAMESPACE_ID::
+          Message /* @@protoc_insertion_point(class_definition:rp4.SetNoTableReq)
+                   */
 {
 public:
     inline SetNoTableReq() : SetNoTableReq(nullptr) {}
@@ -5094,8 +5141,10 @@ private:
 };
 // -------------------------------------------------------------------
 
-class SetNoTableResp final : public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:rp4.SetNoTableResp)
-                                                                      */
+class SetNoTableResp final
+    : public ::PROTOBUF_NAMESPACE_ID::
+          Message /* @@protoc_insertion_point(class_definition:rp4.SetNoTableResp)
+                   */
 {
 public:
     inline SetNoTableResp() : SetNoTableResp(nullptr) {}
@@ -5247,8 +5296,10 @@ private:
 };
 // -------------------------------------------------------------------
 
-class ActionProc final : public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:rp4.ActionProc)
-                                                                  */
+class ActionProc final
+    : public ::PROTOBUF_NAMESPACE_ID::
+          Message /* @@protoc_insertion_point(class_definition:rp4.ActionProc)
+                   */
 {
 public:
     inline ActionProc() : ActionProc(nullptr) {}
@@ -5412,8 +5463,10 @@ private:
 };
 // -------------------------------------------------------------------
 
-class SetActionProcReq final : public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:rp4.SetActionProcReq)
-                                                                        */
+class SetActionProcReq final
+    : public ::PROTOBUF_NAMESPACE_ID::
+          Message /* @@protoc_insertion_point(class_definition:rp4.SetActionProcReq)
+                   */
 {
 public:
     inline SetActionProcReq() : SetActionProcReq(nullptr) {}
@@ -5603,8 +5656,10 @@ private:
 };
 // -------------------------------------------------------------------
 
-class SetActionProcResp final : public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:rp4.SetActionProcResp)
-                                                                         */
+class SetActionProcResp final
+    : public ::PROTOBUF_NAMESPACE_ID::
+          Message /* @@protoc_insertion_point(class_definition:rp4.SetActionProcResp)
+                   */
 {
 public:
     inline SetActionProcResp() : SetActionProcResp(nullptr) {}
@@ -5758,8 +5813,10 @@ private:
 };
 // -------------------------------------------------------------------
 
-class SetMemConfigReq final : public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:rp4.SetMemConfigReq)
-                                                                       */
+class SetMemConfigReq final
+    : public ::PROTOBUF_NAMESPACE_ID::
+          Message /* @@protoc_insertion_point(class_definition:rp4.SetMemConfigReq)
+                   */
 {
 public:
     inline SetMemConfigReq() : SetMemConfigReq(nullptr) {}
@@ -6019,8 +6076,10 @@ private:
 };
 // -------------------------------------------------------------------
 
-class SetMemConfigResp final : public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:rp4.SetMemConfigResp)
-                                                                        */
+class SetMemConfigResp final
+    : public ::PROTOBUF_NAMESPACE_ID::
+          Message /* @@protoc_insertion_point(class_definition:rp4.SetMemConfigResp)
+                   */
 {
 public:
     inline SetMemConfigResp() : SetMemConfigResp(nullptr) {}
@@ -6174,8 +6233,10 @@ private:
 };
 // -------------------------------------------------------------------
 
-class SetFieldInfoReq final : public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:rp4.SetFieldInfoReq)
-                                                                       */
+class SetFieldInfoReq final
+    : public ::PROTOBUF_NAMESPACE_ID::
+          Message /* @@protoc_insertion_point(class_definition:rp4.SetFieldInfoReq)
+                   */
 {
 public:
     inline SetFieldInfoReq() : SetFieldInfoReq(nullptr) {}
@@ -6363,8 +6424,10 @@ private:
 };
 // -------------------------------------------------------------------
 
-class SetFieldInfoResp final : public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:rp4.SetFieldInfoResp)
-                                                                        */
+class SetFieldInfoResp final
+    : public ::PROTOBUF_NAMESPACE_ID::
+          Message /* @@protoc_insertion_point(class_definition:rp4.SetFieldInfoResp)
+                   */
 {
 public:
     inline SetFieldInfoResp() : SetFieldInfoResp(nullptr) {}
@@ -6518,8 +6581,10 @@ private:
 };
 // -------------------------------------------------------------------
 
-class InsertSramEntryReq final : public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:rp4.InsertSramEntryReq)
-                                                                          */
+class InsertSramEntryReq final
+    : public ::PROTOBUF_NAMESPACE_ID::
+          Message /* @@protoc_insertion_point(class_definition:rp4.InsertSramEntryReq)
+                   */
 {
 public:
     inline InsertSramEntryReq() : InsertSramEntryReq(nullptr) {}
@@ -6748,8 +6813,10 @@ private:
 };
 // -------------------------------------------------------------------
 
-class InsertSramEntryResp final : public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:rp4.InsertSramEntryResp)
-                                                                           */
+class InsertSramEntryResp final
+    : public ::PROTOBUF_NAMESPACE_ID::
+          Message /* @@protoc_insertion_point(class_definition:rp4.InsertSramEntryResp)
+                   */
 {
 public:
     inline InsertSramEntryResp() : InsertSramEntryResp(nullptr) {}
@@ -6907,8 +6974,10 @@ private:
 };
 // -------------------------------------------------------------------
 
-class InsertTcamEntryReq final : public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:rp4.InsertTcamEntryReq)
-                                                                          */
+class InsertTcamEntryReq final
+    : public ::PROTOBUF_NAMESPACE_ID::
+          Message /* @@protoc_insertion_point(class_definition:rp4.InsertTcamEntryReq)
+                   */
 {
 public:
     inline InsertTcamEntryReq() : InsertTcamEntryReq(nullptr) {}
@@ -7155,8 +7224,10 @@ private:
 };
 // -------------------------------------------------------------------
 
-class InsertTcamEntryResp final : public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:rp4.InsertTcamEntryResp)
-                                                                           */
+class InsertTcamEntryResp final
+    : public ::PROTOBUF_NAMESPACE_ID::
+          Message /* @@protoc_insertion_point(class_definition:rp4.InsertTcamEntryResp)
+                   */
 {
 public:
     inline InsertTcamEntryResp() : InsertTcamEntryResp(nullptr) {}
@@ -7314,8 +7385,10 @@ private:
 };
 // -------------------------------------------------------------------
 
-class ClearOldConfigReq final : public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:rp4.ClearOldConfigReq)
-                                                                         */
+class ClearOldConfigReq final
+    : public ::PROTOBUF_NAMESPACE_ID::
+          Message /* @@protoc_insertion_point(class_definition:rp4.ClearOldConfigReq)
+                   */
 {
 public:
     inline ClearOldConfigReq() : ClearOldConfigReq(nullptr) {}
@@ -7481,8 +7554,10 @@ private:
 };
 // -------------------------------------------------------------------
 
-class ClearOldConfigResp final : public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:rp4.ClearOldConfigResp)
-                                                                          */
+class ClearOldConfigResp final
+    : public ::PROTOBUF_NAMESPACE_ID::
+          Message /* @@protoc_insertion_point(class_definition:rp4.ClearOldConfigResp)
+                   */
 {
 public:
     inline ClearOldConfigResp() : ClearOldConfigResp(nullptr) {}
@@ -7639,8 +7714,10 @@ private:
 };
 // -------------------------------------------------------------------
 
-class SetMissActIdReq final : public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:rp4.SetMissActIdReq)
-                                                                       */
+class SetMissActIdReq final
+    : public ::PROTOBUF_NAMESPACE_ID::
+          Message /* @@protoc_insertion_point(class_definition:rp4.SetMissActIdReq)
+                   */
 {
 public:
     inline SetMissActIdReq() : SetMissActIdReq(nullptr) {}
@@ -7816,8 +7893,10 @@ private:
 };
 // -------------------------------------------------------------------
 
-class SetMissActIdResp final : public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:rp4.SetMissActIdResp)
-                                                                        */
+class SetMissActIdResp final
+    : public ::PROTOBUF_NAMESPACE_ID::
+          Message /* @@protoc_insertion_point(class_definition:rp4.SetMissActIdResp)
+                   */
 {
 public:
     inline SetMissActIdResp() : SetMissActIdResp(nullptr) {}
@@ -7971,8 +8050,10 @@ private:
 };
 // -------------------------------------------------------------------
 
-class Parameter final : public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:rp4.Parameter)
-                                                                 */
+class Parameter final
+    : public ::PROTOBUF_NAMESPACE_ID::
+          Message /* @@protoc_insertion_point(class_definition:rp4.Parameter)
+                   */
 {
 public:
     inline Parameter() : Parameter(nullptr) {}
@@ -8249,8 +8330,10 @@ private:
 };
 // -------------------------------------------------------------------
 
-class ExpTreeNode final : public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:rp4.ExpTreeNode)
-                                                                   */
+class ExpTreeNode final
+    : public ::PROTOBUF_NAMESPACE_ID::
+          Message /* @@protoc_insertion_point(class_definition:rp4.ExpTreeNode)
+                   */
 {
 public:
     inline ExpTreeNode() : ExpTreeNode(nullptr) {}
@@ -8847,8 +8930,10 @@ private:
 };
 // -------------------------------------------------------------------
 
-class InsertActionReq final : public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:rp4.InsertActionReq)
-                                                                       */
+class InsertActionReq final
+    : public ::PROTOBUF_NAMESPACE_ID::
+          Message /* @@protoc_insertion_point(class_definition:rp4.InsertActionReq)
+                   */
 {
 public:
     inline InsertActionReq() : InsertActionReq(nullptr) {}
@@ -9035,8 +9120,10 @@ private:
 };
 // -------------------------------------------------------------------
 
-class InsertActionResp final : public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:rp4.InsertActionResp)
-                                                                        */
+class InsertActionResp final
+    : public ::PROTOBUF_NAMESPACE_ID::
+          Message /* @@protoc_insertion_point(class_definition:rp4.InsertActionResp)
+                   */
 {
 public:
     inline InsertActionResp() : InsertActionResp(nullptr) {}
@@ -9190,8 +9277,10 @@ private:
 };
 // -------------------------------------------------------------------
 
-class ClearActionReq final : public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:rp4.ClearActionReq)
-                                                                      */
+class ClearActionReq final
+    : public ::PROTOBUF_NAMESPACE_ID::
+          Message /* @@protoc_insertion_point(class_definition:rp4.ClearActionReq)
+                   */
 {
 public:
     inline ClearActionReq() : ClearActionReq(nullptr) {}
@@ -9343,8 +9432,10 @@ private:
 };
 // -------------------------------------------------------------------
 
-class ClearActionResp final : public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:rp4.ClearActionResp)
-                                                                       */
+class ClearActionResp final
+    : public ::PROTOBUF_NAMESPACE_ID::
+          Message /* @@protoc_insertion_point(class_definition:rp4.ClearActionResp)
+                   */
 {
 public:
     inline ClearActionResp() : ClearActionResp(nullptr) {}
@@ -9496,8 +9587,10 @@ private:
 };
 // -------------------------------------------------------------------
 
-class DelActionReq final : public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:rp4.DelActionReq)
-                                                                    */
+class DelActionReq final
+    : public ::PROTOBUF_NAMESPACE_ID::
+          Message /* @@protoc_insertion_point(class_definition:rp4.DelActionReq)
+                   */
 {
 public:
     inline DelActionReq() : DelActionReq(nullptr) {}
@@ -9661,8 +9754,10 @@ private:
 };
 // -------------------------------------------------------------------
 
-class DelActionResp final : public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:rp4.DelActionResp)
-                                                                     */
+class DelActionResp final
+    : public ::PROTOBUF_NAMESPACE_ID::
+          Message /* @@protoc_insertion_point(class_definition:rp4.DelActionResp)
+                   */
 {
 public:
     inline DelActionResp() : DelActionResp(nullptr) {}

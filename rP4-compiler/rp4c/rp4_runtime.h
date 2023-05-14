@@ -61,13 +61,14 @@ inline void Rp4Runtime::emitTask(std::string rp4_filename,
         } else {
             next_task->builder.ipsa.is_incremental = 1;
         }
+
         next_task->allocateProcessors();
         next_task->output_all(json_filename);
         now_task = std::move(next_task);
     }
 }
 
-void Rp4Runtime::emitUpdate(std::vector<std::string> params) {
+inline void Rp4Runtime::emitUpdate(std::vector<std::string> params) {
     std::ofstream output(update_json_filename);
     IpsaOutput out(output);
     if (now_task.get() == nullptr) {

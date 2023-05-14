@@ -1,5 +1,7 @@
 #pragma once
 
+#include <ranges>
+
 #include "ipsa_action_manager.h"
 #include "ipsa_distribution.h"
 #include "ipsa_gateway_manager.h"
@@ -44,7 +46,7 @@ public:
         std::map<std::string, std::shared_ptr<IpsaValue>> dst = {
             {"id", makeValue(id)},
             {"parser", parser.toIpsaValue()},
-            {"gateway", gateway->toIpsaValue()}};
+            {"gateway", makeValue(gateway)}};
         std::vector<std::shared_ptr<IpsaValue>> matcher_list;
         for (auto table : matcher) {
             matcher_list.push_back(table->toIpsaValue());
@@ -129,9 +131,14 @@ inline void IpsaBuilder::allocateProcessors() {
         extra_processor_id = std::max(extra_processor_id, stage_id);
     }
     extra_processor_id++; // unused stage id to store parser-only stages
+
     for (int i = 0; i < ipsa_configuration::PROC_COUNT; i++) {
         auto& processor = ipsa.processors[i];
-        if (int x = memory.physical_proc_id[i]; x >= 0) {
+        if (auto it = memory.physical_proc_id.find(i);
+            it != memory.physical_proc_id.end() && it->second >= 0) {
+
+            auto x = it->second;
+
             processor = std::make_shared<IpsaProcessor>(x);
             auto& stage = *stage_manager.lookup(x);
             // parser
@@ -205,6 +212,7 @@ inline void IpsaBuilder::allocateProcessors() {
     }
     processor_manager.reorderStages(proc_proc);
     table_manager.reorderStages(proc_proc);
+
     for (int i = 0; i < ipsa_configuration::PROC_COUNT; i++) {
         if (ipsa.processors[i].get() != nullptr) {
             auto gateway = ipsa.processors[i]->gateway;
@@ -233,6 +241,7 @@ inline bool IpsaBuilder::allocateMemory(const IpsaBuilder& prev) {
             table_map.insert({{table.table_id, nullptr}});
         }
     }
+
     // existed table make the processors in clusters
     std::map<int, int> proc_cluster;
     for (int stage_id : distribution.topo_sequence) {
@@ -255,6 +264,7 @@ inline bool IpsaBuilder::allocateMemory(const IpsaBuilder& prev) {
             }
         }
     }
+
     // allocate memory
     std::vector<std::pair<int, int>> cluster_space; // space in clusters
     std::vector<std::vector<int>> cluster_proc;     // proc id in clusters
@@ -312,6 +322,7 @@ inline bool IpsaBuilder::allocateMemory(const IpsaBuilder& prev) {
             }
         }
     }
+
     // if arrive this point, incremental update is possible
     // now, it is time to set configs
     std::vector<std::pair<std::vector<bool>, std::vector<bool>>> cluster_bitmap;
@@ -320,7 +331,7 @@ inline bool IpsaBuilder::allocateMemory(const IpsaBuilder& prev) {
             {std::vector<bool>(ipsa_configuration::CLUSTER_TCAM_COUNT, false),
              std::vector<bool>(ipsa_configuration::CLUSTER_SRAM_COUNT, false)});
     }
-   // existing tables
+    // existing tables
     for (auto& [name, table] : table_manager.tables) {
         auto prev_table = table_map[table.table_id];
         auto& now_cluster = cluster_bitmap[proc_cluster[table.proc_id]];
