@@ -269,8 +269,8 @@ inline bool IpsaBuilder::allocateMemory(const IpsaBuilder& prev) {
     std::vector<std::pair<int, int>> cluster_space; // space in clusters
     std::vector<std::vector<int>> cluster_proc;     // proc id in clusters
     for (int i = 0; i < ipsa_configuration::CLUSTER_COUNT; i++) {
-        cluster_space.push_back({ipsa_configuration::CLUSTER_SRAM_COUNT,
-                                 ipsa_configuration::CLUSTER_TCAM_COUNT});
+        cluster_space.push_back({ipsa_configuration::CLUSTER_SRAM_COUNT[i],
+                                 ipsa_configuration::CLUSTER_TCAM_COUNT[i]});
         cluster_proc.push_back({});
     }
     // locate fixed processors
@@ -328,8 +328,10 @@ inline bool IpsaBuilder::allocateMemory(const IpsaBuilder& prev) {
     std::vector<std::pair<std::vector<bool>, std::vector<bool>>> cluster_bitmap;
     for (int i = 0; i < ipsa_configuration::CLUSTER_COUNT; i++) {
         cluster_bitmap.push_back(
-            {std::vector<bool>(ipsa_configuration::CLUSTER_TCAM_COUNT, false),
-             std::vector<bool>(ipsa_configuration::CLUSTER_SRAM_COUNT, false)});
+            {std::vector<bool>(ipsa_configuration::CLUSTER_TCAM_COUNT[i],
+                               false),
+             std::vector<bool>(ipsa_configuration::CLUSTER_SRAM_COUNT[i],
+                               false)});
     }
     // existing tables
     for (auto& [name, table] : table_manager.tables) {
@@ -354,25 +356,30 @@ inline bool IpsaBuilder::allocateMemory(const IpsaBuilder& prev) {
     // other tables
     for (auto& [name, table] : table_manager.tables) {
         auto prev_table = table_map[table.table_id];
-        auto& now_cluster = cluster_bitmap[proc_cluster[table.proc_id]];
+        auto now_cluster_id = proc_cluster[table.proc_id];
+        auto& now_cluster_bitmap = cluster_bitmap[now_cluster_id];
         if (prev_table == nullptr) {
             // key
             for (int i = 0; i < table.key_memory.depth * table.key_memory.width;
                  i++) {
                 int target = -1;
                 if (table.key_memory.type == MEM_TCAM) {
-                    for (int j = 0; j < ipsa_configuration::CLUSTER_TCAM_COUNT;
+                    for (int j = 0;
+                         j <
+                         ipsa_configuration::CLUSTER_TCAM_COUNT[now_cluster_id];
                          j++) {
-                        if (!now_cluster.first[j]) {
-                            now_cluster.first[target = j] = true;
+                        if (!now_cluster_bitmap.first[j]) {
+                            now_cluster_bitmap.first[target = j] = true;
                             break;
                         }
                     }
                 } else {
-                    for (int j = 0; j < ipsa_configuration::CLUSTER_SRAM_COUNT;
+                    for (int j = 0;
+                         j <
+                         ipsa_configuration::CLUSTER_SRAM_COUNT[now_cluster_id];
                          j++) {
-                        if (!now_cluster.second[j]) {
-                            now_cluster.first[target = j] = true;
+                        if (!now_cluster_bitmap.second[j]) {
+                            now_cluster_bitmap.first[target = j] = true;
                             break;
                         }
                     }
@@ -385,10 +392,11 @@ inline bool IpsaBuilder::allocateMemory(const IpsaBuilder& prev) {
             for (int i = 0;
                  i < table.value_memory.depth * table.value_memory.width; i++) {
                 int target = -1;
-                for (int j = 0; j < ipsa_configuration::CLUSTER_SRAM_COUNT;
+                for (int j = 0;
+                     j < ipsa_configuration::CLUSTER_SRAM_COUNT[now_cluster_id];
                      j++) {
-                    if (!now_cluster.second[j]) {
-                        now_cluster.first[target = j] = true;
+                    if (!now_cluster_bitmap.second[j]) {
+                        now_cluster_bitmap.first[target = j] = true;
                         break;
                     }
                 }

@@ -63,8 +63,8 @@ inline void IpsaMemory::allocateMemory() {
     std::vector<std::pair<int, int>> cluster_space; // space in clusters
     std::vector<std::vector<int>> cluster_proc;     // proc id in clusters
     for (int i = 0; i < ipsa_configuration::CLUSTER_COUNT; i++) {
-        cluster_space.push_back({ipsa_configuration::CLUSTER_SRAM_COUNT,
-                                 ipsa_configuration::CLUSTER_TCAM_COUNT});
+        cluster_space.push_back({ipsa_configuration::CLUSTER_SRAM_COUNT[i],
+                                 ipsa_configuration::CLUSTER_TCAM_COUNT[i]});
         cluster_proc.push_back({});
     }
     for (int i = 0; i < ipsa_configuration::PROC_COUNT; i++) {

@@ -48,7 +48,7 @@ inline void IpsaTableManager::reorderStages(std::map<int, int> proc_proc) {
     }
 }
 
-const IpsaTable* IpsaTableManager::lookup(int table_id) const {
+inline const IpsaTable* IpsaTableManager::lookup(int table_id) const {
     for (auto& [name, table] : tables) {
         if (table.table_id == table_id) {
             return &table;
@@ -57,7 +57,7 @@ const IpsaTable* IpsaTableManager::lookup(int table_id) const {
     return nullptr;
 }
 
-const IpsaTable* IpsaTableManager::lookup(std::string name) const {
+inline const IpsaTable* IpsaTableManager::lookup(std::string name) const {
     if (auto x = tables.find(name); x != std::end(tables)) {
         return &(x->second);
     } else {

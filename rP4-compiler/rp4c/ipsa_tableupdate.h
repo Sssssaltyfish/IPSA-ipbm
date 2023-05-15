@@ -2,6 +2,7 @@
 
 #include "ipsa_module.h"
 #include "ipsa_tableupdate_key.h"
+#include "rp4_table.h"
 
 class IpsaTableUpdater : public IpsaModule {
 public:

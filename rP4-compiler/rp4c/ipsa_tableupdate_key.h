@@ -70,7 +70,7 @@ public:
     }
 };
 
-IpsaTableUpdateKey::IpsaTableUpdateKey(std::string value, int _width) {
+inline IpsaTableUpdateKey::IpsaTableUpdateKey(std::string value, int _width) {
     width = _width;
     auto has_dot = value.find('.') != std::string::npos;
     auto has_slide = value.find('/') != std::string::npos;
@@ -146,7 +146,7 @@ IpsaTableUpdateKey::IpsaTableUpdateKey(std::string value, int _width) {
     }
 }
 
-std::vector<uint8_t> IpsaTableUpdateKey::parseNumber(std::string value,
+inline std::vector<uint8_t> IpsaTableUpdateKey::parseNumber(std::string value,
                                                      int width) {
     std::vector<uint8_t> result;
     int size = (width + 7) / 8;
@@ -168,7 +168,7 @@ std::vector<uint8_t> IpsaTableUpdateKey::parseNumber(std::string value,
     return std::move(result);
 }
 
-std::vector<uint8_t> IpsaTableUpdateKey::generateMask(int width, int prelen) {
+inline std::vector<uint8_t> IpsaTableUpdateKey::generateMask(int width, int prelen) {
     std::vector<uint8_t> result;
     int size = (width + 7) / 8;
     result.resize(size, 0xFF);
