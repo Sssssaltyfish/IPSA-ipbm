@@ -49,7 +49,7 @@ public:
     IpsaHeader(const Rp4StructDef* struct_def, int id);
 };
 
-int IpsaHeader::getLength() const {
+inline int IpsaHeader::getLength() const {
     int width = 0;
     for (auto& [name, field] : fields) {
         width += field.field_length;
@@ -57,7 +57,7 @@ int IpsaHeader::getLength() const {
     return (width + 7) / 8;
 }
 
-const IpsaHeaderField* IpsaHeader::lookup(std::string field_name) const {
+inline const IpsaHeaderField* IpsaHeader::lookup(std::string field_name) const {
     if (auto x = fields.find(field_name); x != std::end(fields)) {
         return &(x->second);
     } else {
@@ -66,7 +66,7 @@ const IpsaHeaderField* IpsaHeader::lookup(std::string field_name) const {
     }
 }
 
-IpsaHeader::IpsaHeader(const Rp4HeaderDef* header_def, int id)
+inline IpsaHeader::IpsaHeader(const Rp4HeaderDef* header_def, int id)
     : header_id(id), is_header(true), is_standard_metadata(false) {
     fields.insert({{"isValid", IpsaHeaderField(FT_VALID, id, 0, 0)}});
     for (offset = 0; auto& field : header_def->fields) {
@@ -81,7 +81,7 @@ IpsaHeader::IpsaHeader(const Rp4HeaderDef* header_def, int id)
     }
 }
 
-IpsaHeader::IpsaHeader(const Rp4StructDef* struct_def, int id)
+inline IpsaHeader::IpsaHeader(const Rp4StructDef* struct_def, int id)
     : header_id(id), is_header(false) {
     if (struct_def->name == "standard_metadata") {
         is_standard_metadata = true;

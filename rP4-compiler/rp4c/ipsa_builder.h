@@ -358,7 +358,7 @@ inline bool IpsaBuilder::allocateMemory(const IpsaBuilder& prev) {
     // other tables
     for (auto& [name, table] : table_manager.tables) {
         auto prev_table = table_map[table.table_id];
-        auto now_cluster_id = proc_cluster[table.proc_id];
+        auto now_cluster_id = proc_cluster[table.stage_id];
         auto& now_cluster_bitmap = cluster_bitmap[now_cluster_id];
         if (prev_table == nullptr) {
             // key
