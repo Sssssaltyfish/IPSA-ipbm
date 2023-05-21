@@ -144,7 +144,7 @@ public:
     void addMetadata(const Rp4StructDef* struct_def);
 };
 
-const IpsaHeader* IpsaHeaderManager::get_header(int header_id) const {
+inline const IpsaHeader* IpsaHeaderManager::get_header(int header_id) const {
     for (auto& [name, header] : headers) {
         if (header.header_id == header_id) {
             return &header;
@@ -153,7 +153,7 @@ const IpsaHeader* IpsaHeaderManager::get_header(int header_id) const {
     return nullptr;
 }
 
-const IpsaHeader* IpsaHeaderManager::get_header(std::string name) const {
+inline const IpsaHeader* IpsaHeaderManager::get_header(std::string name) const {
     if (auto x = headers.find(name); x != std::end(headers)) {
         return &(x->second);
     } else {
@@ -162,7 +162,7 @@ const IpsaHeader* IpsaHeaderManager::get_header(std::string name) const {
     }
 }
 
-const IpsaHeader* IpsaHeaderManager::get_header(const Rp4Member* member) const {
+inline const IpsaHeader* IpsaHeaderManager::get_header(const Rp4Member* member) const {
     if (member->instance_name == this->header_name) {
         return get_header(member->member_name);
     } else {
@@ -172,7 +172,7 @@ const IpsaHeader* IpsaHeaderManager::get_header(const Rp4Member* member) const {
     }
 }
 
-const IpsaHeaderField* IpsaHeaderManager::lookup(std::string header_name,
+inline const IpsaHeaderField* IpsaHeaderManager::lookup(std::string header_name,
                                                  std::string field_name) const {
     if (auto x = headers.find(header_name); x != std::end(headers)) {
         return x->second.lookup(field_name);
@@ -182,7 +182,7 @@ const IpsaHeaderField* IpsaHeaderManager::lookup(std::string header_name,
     }
 }
 
-const IpsaHeaderField*
+inline const IpsaHeaderField*
 IpsaHeaderManager::lookup(std::shared_ptr<Rp4LValue> lvalue) const {
     std::string header_name, field_name;
     if (lvalue->isMeta()) {
@@ -205,14 +205,14 @@ IpsaHeaderManager::lookup(std::shared_ptr<Rp4LValue> lvalue) const {
     return lookup(std::move(header_name), std::move(field_name));
 }
 
-void IpsaHeaderManager::addHeader(const Rp4HeaderDef* header_def,
+inline void IpsaHeaderManager::addHeader(const Rp4HeaderDef* header_def,
                                   std::string name) {
     if (headers.find(name) == headers.end()) {
         headers.insert({{name, IpsaHeader(header_def, global_header_id++)}});
     }
 }
 
-void IpsaHeaderManager::addMetadata(const Rp4StructDef* struct_def) {
+inline void IpsaHeaderManager::addMetadata(const Rp4StructDef* struct_def) {
     if (headers.find(struct_def->name) == headers.end()) {
         int header_id = global_header_id;
         if (struct_def->name == "standard_metadata") {
@@ -226,7 +226,7 @@ void IpsaHeaderManager::addMetadata(const Rp4StructDef* struct_def) {
     }
 }
 
-void IpsaHeaderManager::load(const Rp4Ast* ast) {
+inline void IpsaHeaderManager::load(const Rp4Ast* ast) {
     global_header_id = 0;
     for (auto& struct_def : ast->struct_defs) {
         if (struct_def.is_header) {

@@ -24,11 +24,12 @@ public:
 
 // also set action_to_proc list
 inline void IpsaTableManager::setMatcherId(
-    int table_id, int proc_id, int matcher_id,
+    int table_id, int stage_id, int matcher_id,
     const std::vector<std::pair<int, int>>& action_proc) {
+
     for (auto& [name, table] : tables) {
         if (table.table_id == table_id) {
-            table.proc_id = proc_id;
+            table.stage_id = stage_id;
             table.id = matcher_id;
             for (auto [action, proc] : action_proc) {
                 table.action_to_proc.push_back(
@@ -41,7 +42,7 @@ inline void IpsaTableManager::setMatcherId(
 
 inline void IpsaTableManager::reorderStages(std::map<int, int> proc_proc) {
     for (auto& [name, table] : tables) {
-        table.proc_id = proc_proc[table.proc_id];
+        table.stage_id = proc_proc[table.stage_id];
         for (auto& [action, proc] : table.action_to_proc) {
             proc = proc_proc[proc];
         }

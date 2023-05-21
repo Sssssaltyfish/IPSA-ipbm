@@ -248,19 +248,19 @@ inline bool IpsaBuilder::allocateMemory(const IpsaBuilder& prev) {
         proc_cluster.insert({{stage_id, -1}});
     }
     for (auto& [name, table] : table_manager.tables) {
-        auto proc_id = table.proc_id;
+        auto stage_id = table.stage_id;
         auto prev_table = table_map[table.table_id];
         if (prev_table != nullptr) {
-            int prev_proc_id = prev_table->proc_id;
+            int prev_proc_id = prev_table->stage_id;
             int cluster_id =
                 prev_proc_id / ipsa_configuration::CLUSTER_PROC_COUNT;
-            if (int x = proc_cluster[proc_id]; x >= 0) {
+            if (int x = proc_cluster[stage_id]; x >= 0) {
                 if (x != cluster_id) {
                     return false; // tables in different clusters must be
                                   // allocated to the same processor
-                }
+                } // TODO!: migrate it
             } else {
-                proc_cluster[proc_id] = cluster_id;
+                proc_cluster[stage_id] = cluster_id;
             }
         }
     }
@@ -291,6 +291,7 @@ inline bool IpsaBuilder::allocateMemory(const IpsaBuilder& prev) {
                 physical_proc_id[target] = stage_id;
             } else {
                 return false;
+                // TODO! consider migration
                 //    a cluster must contain exceeded processors
                 // or a cluster cannot include existing tables (actually this
                 // should not happen)
@@ -318,6 +319,7 @@ inline bool IpsaBuilder::allocateMemory(const IpsaBuilder& prev) {
             if (target >= 0) {
                 physical_proc_id[target] = stage_id;
             } else {
+                // TODO! consider migration
                 return false; // cannot arrange memory
             }
         }
@@ -336,7 +338,7 @@ inline bool IpsaBuilder::allocateMemory(const IpsaBuilder& prev) {
     // existing tables
     for (auto& [name, table] : table_manager.tables) {
         auto prev_table = table_map[table.table_id];
-        auto& now_cluster = cluster_bitmap[proc_cluster[table.proc_id]];
+        auto& now_cluster = cluster_bitmap[proc_cluster[table.stage_id]];
         if (prev_table != nullptr) {
             // copy table
             for (int x : prev_table->key_memory.config) {

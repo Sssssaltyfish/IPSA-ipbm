@@ -86,11 +86,13 @@ inline void Rp4Runtime::emitUpdate(std::vector<std::string> params) {
     // parse update table
     auto table_name = params[1];
     auto table = now_task->builder.table_manager.lookup(table_name);
-    int proc_id = table->proc_id;
+    CHECK_NULL(table);
+    int proc_id = table->stage_id;
     int matcher_id = table->id;
     // parse action
     auto action_name = params[2];
     auto action = now_task->builder.action_manager.lookup(action_name);
+    CHECK_NULL(action);
     int action_id = action->id;
     IpsaTableUpdater updater(type, proc_id, matcher_id, action_id);
     updater.match_type = table->match_type;

@@ -20,7 +20,6 @@ int main(int argc, char** argv) {
         if (line.empty()) {
             continue;
         }
-
         std::vector<std::string> params;
         std::istringstream is(line);
         while (std::getline(is, temp, ' ')) {
